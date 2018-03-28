@@ -2,4 +2,6 @@
 
 eclipse快捷键：   
 ctrl + e     // 选项卡切换
-ctrl + m     // 最大化
+ctrl + m     // 最大化窗口
+ctrl + w     // 关闭选项卡
+自定义快捷键：  windows->preferences->key 
