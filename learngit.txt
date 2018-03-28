@@ -43,6 +43,7 @@ learngit
    远程库克隆： git clone git@github.com:innocnet/gitskills.git
    修改远程库地址： git remote set-url origin [url]
    查看远程库状态：git remote -v
+   取消与远程库的关联： git remote remove origin
 5) 分支管理             
    创建分支：   git branch dev (dev为分支名)
    查看分支：   git branch 
