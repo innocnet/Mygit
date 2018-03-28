@@ -1,0 +1,74 @@
+learngit 
+一些命令： 
+1) 添加账户和邮箱   
+   git config --global user.name "username"
+   git config --global user.eamil "eamil@example.com"
+
+2) 创建版本库  
+   进入目录： cd e:
+   进入子目录：cd git
+   创建文件夹:  mkdir learngit 
+   初始化： git init 
+   删除本地库：   ls -a ;   rm -rf .git
+
+
+
+3)时光穿梭
+   工作区； 版本库（stage暂存区，master主分支）
+   添加到暂存区：  git add example.txt
+   上传到master:   git commit -m "说明"
+   查看状态：   git status
+   查看文件夹内容：  ls               
+   查看文件内容：cat file
+   查看工作区和版本库文件的区别：  git diff HEAD -- file
+   查看历史记录：    git log   （git log --pretty=oneline  精简信息)
+   查看命令记录：   git reflog
+   丢弃工作区的修改：                git checkout -- file
+   撤销暂存区的修改，回到工作区原来的样子：               git reset HEAD file      (HEAD 指向master, HEAD^ 上一版本， HEAD^^,   HEAD~100)
+   撤销版本库的修改，版本回退：    git reset --hard HEAD^
+                                   或者配合 git reglog ;  git reset --hard (commit id) 
+   删除操作： rm  file(删除工作区的文件);  git rm file (删除工作区并add到暂存区)
+       误删恢复：  针对 rm file   :  git checkout -- file
+                   针对 git rm file :  git checkout HEAD -- file
+    子文件全部删除：  git rm * -r ; git add . ;  git commit -m "delete all"    
+4）远程库操作
+   创建ssh key:   ssh-keygen -t rsa -C "email@example.com"   生成的文件一般在用户主目录下
+   添加远程库： git remote add origin git@github.com:innocnet/Mycode.git      (origin为远程库名，innocnet为账户名；Mycode为repository)
+   推送到远程库： 第一次  git push -u origin master
+                  后续    git push origin master 
+   git pull origin  //将其他用户的修改并commit的库下到本地；
+   git pull   // 将远程库拷贝到本地库
+   git rebase origin  // 默认master主分支 命令会把你的"dev"分支里的每个提交(commit)取消掉，并且把它们临时 保存为补丁(patch)(这些补丁放到".git/rebase"目录中),
+                         然后把"dev"分支更新 为最新的"origin"分支，最后把保存的这些补丁应用到"dev"分支上。
+   远程库克隆： git clone git@github.com:innocnet/gitskills.git
+   修改远程库地址： git remote set-url origin [url]
+   查看远程库状态：git remote -v
+5) 分支管理             
+   创建分支：   git branch dev (dev为分支名)
+   查看分支：   git branch 
+   切换分支：   git checkout master (切换到master分支)
+   创建+切换分支：git checkout -b dev
+   合并分支：   git merge dev   (将当前分支和dev分支合并)
+   删除分支：   git branch -d dev
+   查看分支合并图： git log --graphy
+                    git log --graphy --pertty=oneline --abbrev-commit
+   注意：  合并分支时，默认用 fast Foward 模式，此模式下，删除分支后会丢失分支信息； 强制禁用fast forward 在merge时会生成一个新的commit.
+           git merge --no-off -m "merge with no-off" dev
+
+
+   BUG分支：  dev分支工作到一半；
+              git stash   // 清理现场
+             处理bug后， git checkout dev
+             git stash list   //查看stash记录
+             恢复： git stash apply //恢复工作记录但不删除stash内容；  git stash drop  //删除stash内容
+                  或者  git stash pop    //恢复并删除stash 
+
+
+6)标签管理
+    git checkout master
+    git tag v1.0    // 默认标签是打在最新提交的commit上的
+    git tag v1.3 commit_id   //给特定commit打上标签    
+    git tag -a v1.0 -m "version 1.0 released" commit_id   //创建带有说明的标签，用-a指定标签名，-m指定说明文字：
+    git tag   //显示标签
+    git show v1.0     //查看标签详细信息
+
