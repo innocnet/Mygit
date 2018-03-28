@@ -1,0 +1,5 @@
+// java doc
+
+eclipse快捷键：   
+ctrl + e     // 选项卡切换
+ctrl + m     // 最大化
