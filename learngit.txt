@@ -30,7 +30,8 @@ learngit
    删除操作： rm  file(删除工作区的文件);  git rm file (删除工作区并add到暂存区)
        误删恢复：  针对 rm file   :  git checkout -- file
                    针对 git rm file :  git checkout HEAD -- file
-    子文件全部删除：  git rm * -r ; git add . ;  git commit -m "delete all"    
+    子文件全部删除：  git rm * -r ; git add . ;  git commit -m "delete all"   
+
 4）远程库操作
    创建ssh key:   ssh-keygen -t rsa -C "email@example.com"   生成的文件一般在用户主目录下
    添加远程库： git remote add origin git@github.com:innocnet/Mycode.git      (origin为远程库名，innocnet为账户名；Mycode为repository)
@@ -44,7 +45,8 @@ learngit
    修改远程库地址： git remote set-url origin [url]
    查看远程库状态：git remote -v
    取消与远程库的关联： git remote remove origin
-5) 分支管理             
+5) 分支管理  
+   HEAD理解：一个指向你正在工作中的本地分支的指针；           
    创建分支：   git branch dev (dev为分支名)
    查看分支：   git branch 
    切换分支：   git checkout master (切换到master分支)
