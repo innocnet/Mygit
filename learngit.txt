@@ -10,7 +10,7 @@ learngit
    创建文件夹:  mkdir learngit 
    初始化： git init 
    删除本地库：   ls -a ;   rm -rf .git
-
+ git指令速查表： https://www.git-tower.com/blog/git-cheat-sheet-cn
 
 
 3)时光穿梭
@@ -77,4 +77,6 @@ learngit
     git tag -a v1.0 -m "version 1.0 released" commit_id   //创建带有说明的标签，用-a指定标签名，-m指定说明文字：
     git tag   //显示标签
     git show v1.0     //查看标签详细信息
+
+
 
