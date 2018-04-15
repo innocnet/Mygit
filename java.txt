@@ -5,8 +5,11 @@ ctrl + e     // 选项卡切换
 ctrl + m     // 最大化窗口
 ctrl + w     // 关闭选项卡
 ctrl + /     // 添加注释
+ctrl + shift + x // 切换成大写
+ctrl + shift + y // 大写转小写
+ctrl + shift + c // 加注释
 自定义快捷键：  windows->preferences->key 
-
+自定义运行： alt + B   (实在找不到不冲突的快捷键了)
 静态成员不能访问非静态成员； 非静态内部类中不能定义静态成员。
 
 自动类型转换遵循下面的规则：
