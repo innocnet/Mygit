@@ -1,18 +1,23 @@
 SQL语言(不区分大小写；对行不敏感)
 
 edit(pl/sql)界面里面  -- 表示注释
-
+DML: 数据操纵语言 增删改查；针对行
+DDL: 定义数据库的结构，创建，修改和删除； 针对列
+DCL: 数据库控制语言； 授权；
 1.select语句：
 	数字和日期使用的算术运算符；
 	包含空值的数学表达式的值都为空值；
 
-使用别名： as  或  "别名" (这里是双引号，其余多数是双引号)
+	使用别名： as  或  "别名" (这里是双引号，其余多数是双引号)
 
-使用连接符：|| 中间用单引号；
+	使用连接符：|| 中间用单引号；
+	select  last_name || ' earns ' || to_char(salary,'$99999') || ' salary monthly but wants' || to_char(salary*3, '$999999') "Dream Salry"
+	from employees
+	where last_name = 'King' and salary = 24000
 
-使用distinct : 不重复显示
+	使用distinct : 不重复显示
 
-显示表结构： describe table ;  // desc table 缩写；
+	显示表结构： describe table ;  // desc table 缩写；
 
 2. 查询； 在查询中过滤行； 在查询中对行进行排列；
 	
@@ -32,3 +37,180 @@ edit(pl/sql)界面里面  -- 表示注释
 	order by   : asc顺序； desc 逆序(从大到小)
 
 3. 单行函数
+	大小写控制函数：lower; upper; initcap(首字母大写)
+	字符控制函数：
+				CONCAT('Hello', 'World')    HelloWorld
+				SUBSTR('HelloWorld',1,5)	Hello
+				LENGTH('HelloWorld')		10
+				INSTR('HelloWorld', 'W')	6 (首次出现)
+				LPAD(salary,10,'*')			*****24000
+				RPAD(salary, 10, '*')		24000*****
+				TRIM('H' FROM 'HelloWorld')	elloWorld
+				REPLACE(‘abcd’,’b’,’m’)		amcd
+
+	数字函数
+		round: 	四舍五入； round(p,1) 保留一位小数
+		trunc:  截断
+		mod: 	求余
+
+	日期函数：
+		months_between  返回两个日期间有多少个月份；
+		add_months		当前日期增加月份
+		next_day 		下一星期几对应的日期  next_day(sysdate,'星期几')， 注意有两个参数
+		last_day 		本月的最后一天
+		sysdate 		显示系统日期； 如果显示时间 to_char(sysdate,'yyyy-mm-dd hh:mi:ss')  mi非mm
+
+	数据类型转换：
+		隐式： date <-> varchar2 <-> number
+		显示：to_char; to_date; to_number
+				eg:select employee_id, last_name, hire_date
+					from employees
+					--where hire_date= '07-6月-1994'
+					--where to_char(hire_date,'yyyy-mm-dd')='1994-06-07'
+					where hire_date= to_date('1994-06-07','yyyy-mm-dd')
+
+	通用函数：
+		NVL;  nvl(p1,p2) 空值转化为一个已知的值； eg: nvl(commission_pct,0)
+		NVL2; nvl2(p1,p2,p3)  只能返回两个值：不为空返回p2,为空返回p3
+		NULLIF;  ~
+		COALESCE; ~
+
+	条件表达式： 
+		case,when;
+			eg:
+				select employee_id , last_name , case department_id 
+				when 10 then salary*1.1
+				when 20 then salary*1.2
+				else salary*1.3 end new_sal
+				from employees
+				where department_id in(10,20,30)
+
+		decode;
+			eg:
+				select employee_id , last_name, decode(department_id,
+				10, salary*1.1，
+				20，salary*1.2,
+				salary*1.3) revi_sal 
+				from employees
+				where department_id in(10,20,30)
+
+4. 多表查询	
+	内连接； 返回结果中彼此都有； 过滤条件，防止笛卡尔积
+			等值、不等值连接；
+			自连接、非自连接
+	外连接； 返回结果中其中一个没有；分左外连接（左边多）和右外连接（右边多）
+			join on 
+			eg: e left outer join d;
+				e right outer join d;
+				e full outer join d ; (where (+)所不能实现的)
+	自连接：
+			eg: select emp.last_name ,mana.last_name , mana.salary 
+				from employees emp, employees mana
+				where emp.manager_id= mana.employee_id and lower(emp.last_name)='chen'
+
+5. 分组函数
+	组函数：忽略控制；不能在where中使用；可以在having中使用
+		avg: only number类型
+		count：
+		max:
+		min:
+		sum：only number类型
+
+
+	使用group by: 分组展示；
+		eg:
+			select 
+			department_id ,job_id, avg(salary)
+			from employees
+			group by department_id ,job_id
+
+	使用having: 约束条件
+
+	eg:
+	 	 total  1995  1996  1997  1998
+	 	 10 	2		3     1     4
+		select count(*) "total", 
+		count(decode(to_char(hire_date,'yyyy'),'1995',1,null)) "1995",
+		count(decode(to_char(hire_date,'yyyy'),'1996',1,null)) "1996",
+		count(decode(to_char(hire_date,'yyyy'),'1997',1,null)) "1997",
+		count(decode(to_char(hire_date,'yyyy'),'1998',1,null)) "1998"
+		from employees
+		where to_char(hire_date,'yyyy') in (1995,1996,1997,1998)
+
+6. 子查询
+	子查询类型； 单行子查询； 多行子查询
+	可以用自连接实现；
+	单行操作符： > < =
+	多行操作符：in ; any ; all
+
+
+		eg:查询工资比abel高的员工工资
+			select last_name, salary 
+			from employees 
+			where salary > (select salary 
+			                from employees
+			                where last_name = 'Abel')
+
+7.  创建和管理表
+		常见数据库对象： 表，视图view, 序列，索引，同义词
+		创建；修改；删除；DDC(不能rollback)
+		select * from user_tables;
+		select table_name from user_tables; 查看所有表名
+		create table ：(两种方式) 
+			1建新表：create table;
+			2在已有表的基础上： create table table_name  
+								as 
+								select ...    //数据也会进来
+
+		alter table:(只对后添加的表有作用)
+			add ;  
+			modify;   modify (id number (10) default a)
+			drop;  	  drop column email
+			rename ;  rename column salary to sal
+
+		drop;
+			drop table emp1;
+
+		truncate: 清空表内容
+
+		改变表名称： rename emp1 t emp2;
+
+8. 数据处理 DML (增删改； 针对行)
+		insert into:
+			insert  into  emp  values () ;	//直接赋值
+
+			insert into emp (last_name, hire_date)  //从别的表中选择复制
+				select  last_name, hire_date 
+				from employees
+
+			脚本插入：+&  
+				insert into emp 
+				values (&id, '&last_name', &salary, '&hire_date')
+
+		update:
+			update emp 
+			set salary=1222
+			where ...
+
+		delete :
+			delete from emp
+			where ...
+
+	数据库事务：
+		commit
+		rollback
+		savepoint
+
+	总结： 
+		带table: truncate; drop; DDL一般带table;
+		不带table: insert into ; update; delete from;  DML 一般不带table;
+
+9. 约束
+	五种约束：
+		not null;
+		unique;
+		primary key;
+		foreign key;
+		check;
+
+
