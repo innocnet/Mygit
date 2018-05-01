@@ -1,16 +1,24 @@
 // java doc
 
 eclipse快捷键：   
+ctrl + d     // 删除整行
 ctrl + e     // 选项卡切换
 ctrl + m     // 最大化窗口
 ctrl + w     // 关闭选项卡
 ctrl + /     // 添加注释
+ctrl + +   	 // 放大字体
+Ctrl + -     // 缩小字体
+ctrl + 鼠标左键 //查看源代码
 ctrl + shift + x // 切换成大写
 ctrl + shift + y // 大写转小写
-ctrl + shift + c // 加注释
+ctrl + shift + c // 添加注释
+ctrl + shift + t // open type
+alt  + /     // 补全代码，如try_catch块
+
 自定义快捷键：  windows->preferences->key 
 自定义运行： alt + B   (实在找不到不冲突的快捷键了)
 静态成员不能访问非静态成员； 非静态内部类中不能定义静态成员。
+背景色设置： windows -> preferences-> editors-> text editors  色调84; 饱和度91;亮度205  护眼绿  RGB: 204;232;207
 
 自动类型转换遵循下面的规则：
 1.若参与运算的数据类型不同，则先转换成同一类型，然后进行运算。
@@ -24,9 +32,34 @@ String 类:
 
 
 数据结构： 
-链表，栈，队列，树，图；
-栈： 先进先出(FIFO)     对应集合：ArrayDeque
+		链表，栈，队列，树，图；
+		栈： 后进先出(LIFO)     对应集合：ArrayDeque
+		队列：先进先出（FIFO)
 
+		树： 
+			度：含子结点的数量
+			二叉树：
+					完全二叉树：深度为k,则 1`k-1层，各层结点数达到最大。
+					满二叉树:深度为k, 则结点数为：2^k-1,最后一层结点数为： 2^(k-1)
+				遍历：
+					层次遍历；
+					前序遍历；
+					中序遍历；
+					后序遍历；
+
+
+		图： vertex ; edge
+			有向图；无向图；
+			连通图(任意两个顶点之间均有路径可循)；
+			连通分量：即极大连通子图；
+
+java堆内存：
+	permanent space (持久代): 存放静态类型数据 如 java class,method
+	heap space =(old + new (eden+ survivor(from, to)))  对应的内存的回收： Young GC; Full GC
+	Out of Memory 主要有两种表现：
+								1.年老代溢出： 各种内存问题；
+								2.持久带溢出： 动态加载各种类
+	对象的历程： Eden->survivor(from or to)->年老代->GC
 
 
 

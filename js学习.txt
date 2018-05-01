@@ -1,0 +1,16 @@
+js学习
+
+JS 
+1). Eclipse web/js插件安装
+	help-->install software -- add Oxygen - http://download.eclipse.org/releases/oxygen
+	,找到Web,XML,Java EE and OSGi Enterprise Development
+
+2). TomCat 
+	Eclipse配置Tomcat服务器,参阅：https://blog.csdn.net/guyuealian/article/details/50762996
+
+	windom.onload 文档完全加载之后执行
+
+3). 代码提示插件 
+	aptana ;  
+
+	html editor (amateras); 参阅：http://samchu.logdown.com/posts/192265-install-eclipse-html-editor

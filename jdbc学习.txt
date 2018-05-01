@@ -1,0 +1,154 @@
+//JDBC学习  2018/4/22 于 lab
+
+mysql ;
+oracle.jar ;
+反射;
+
+MySQL/sqlyog ： sqlyog连接mysql故障，提示（plugin caching sha2 password could not be loaded）无法加载身份验证插件，解决方法
+				ALTER USER 'username'@'IP' IDENTIFIED WITH mysql_native_password BY 'password';
+
+java里写sql语句换行一定要注意加个空格，否则字符串就连到一起无法识别；
+
+puzzle: 
+	1. 访问数据库 如何不用每次都访问配置文件；//数据库连接池
+
+	2. sql语句在java里面的繁琐写法如何精简； // 通过preparedStatement精简并防止sql注入；
+
+	3. RejectionUtils及反射原理： ？
+
+	4. new Date(new java.utils.Date().getTime()),如何随便写个时间：   ？
+		
+points:
+	1. 反射的运用   // 1)创建mysql driver时(mysqljdbc.jar)，创建driver对象，Driver driver = (Driver) Class.forName(driverclass).newInstanse();
+					   
+					   2)创建oracle OracleDriver(oraceljdbc.jar)对象时， OracleDriver driver = (Oracle Driver)Class.foName(	driverclass).newInstance;
+					   
+					   3)创建DriverManager对象时(java自带)， Class.forName(driverclass); 不用创建实例，调用这个方法会先执行其中的静态初始化块;
+
+					   4)利用反射及 JDBC 元数据编写通用的查询方法
+
+	2. BeanUtils的运用
+
+
+
+1. 连接
+	连接mysql:
+		driver:  com.jdbc.mysql.Driver;
+		jdbcurl: jdbc:mysql://localhost:3306/MySQL?useSSL=false;
+		user:  	 root;
+		password:orcl;
+   连接oracle:
+	   driver:   oracle.jdbc.driver.OracleDriver;
+	   jdbcurl:  jdbc:oracle:thin:@localhost:3306:orcl;
+	   user:	 cat;
+	   password: tiger;
+
+2. JDBCTools:connection ; statement; resultset;  //利用JDBCTools;
+		Connection conn = null;
+		Statement statement = null;
+		ResultSet rs = null;
+		conn = JDBCTools.getConnetcion;
+		statement = conn.createStatement;
+		rs = statement.exectueQuery(sql);
+
+3. PreparedStatement
+		方便写sql语句；
+		防止sql注入；
+		提高性能；
+	步骤：
+		1) 创建PrepareStatement
+			Connection conn = null;
+			PreparedStatement preparedStatement = null;
+			conn = JDBCTools.getConnection;
+			sql =... 使用？占位符
+			preparedStatement = conn.prepareStatement(sql);
+		2) sql语句
+			prepateStatement.setSting (1,"name")
+		3) 执行sql
+			prepareStatement.executeUpdate/Query;
+
+4. 反射及JDBC元数据
+		获取conn, preparedstatement,rs  //ps for{}
+		创建ResultSetMetaData，获取封装的列名；
+		放入映射map;  //put for{}
+		读取map,利用反射及rejectionutils赋值给实例变量；// 赋值 for{}
+
+5. DAO data acess object   //apache 开源组织；
+	javabean ：以setter/getter来定义类的属性；
+	写入类属性值
+				* beanUtils :  sql变量名要与setter/getter方法名一致，(去掉set/get后首字母小写)
+				* rejectionutils ：sql变量名要与定义时的类属性名一致；
+	List<Map<String, Object>> values = new ArrayList<>();
+	Map<String, Object> map = new HashMap<> ();
+
+
+6. JDBC元数据：
+	数据库元数据
+	DataBaseMetaData dbmd = connection.getMetaData;
+
+	结果集元数据
+7. 获取数据库元数据主键值：
+	1)使用PreparedStatemnet ps = conn.prepareStatement(sql, conn.return...)
+
+	2)rs = ps.getkeyvalues;
+
+8. Blob数据处理
+	利用I/O
+	inputstream in = new FileInputStream("filename");
+	outputStram out = new FileOutputStream("filename");
+
+		读取操作：
+		byte[] buffer = new byte[1024];
+		int len =0; 
+		while ((len = (in.read(buffer)))>0) {
+			out.write(buffer);
+		}
+
+9. 事务处理及事务隔离
+	事务特性：
+			原子性； 一致性； 隔离性； 持久性；
+
+	mysql :
+		 select @@transaction_isolation; //查看隔离级别
+		 set transaction isolation level read committed; //设置当前连接隔离级别；
+		 set global transacton ioslation level read committed;  //设置全局隔离级别
+
+10. 批量处理
+		PreparedStatement ps;
+		ps.addBatch();
+		ps.executeBatch();
+		ps.clearBatch()
+
+11. 数据库连接池
+
+	DataSource 接口由公司提供实现
+			服务器 Weblogic ; Webphere; Tomcat
+			开源组织提供实现： DBCP ; C3PO
+
+	1. DBCP连接池
+		1) BasicDataSource bds = new BasicDataSource();
+		   bds.setXxx();
+
+		   Connection conn = bds.getConnection();
+
+		2) Properties properties = new Properties();
+		   InputStream in = 
+		   getClass().getClassLoader().getResourceAsStream("filename");
+		   properties.load(in);
+
+		   DataSource ds = BasicDataSourceFactory.createDataSource(properties);
+
+		   Connection  conn = ds.getConnection();
+
+
+	2. C3P0连接池
+		1) ComboPooledDataSource cpds = new ComboPooledDataSource();
+		   cpds.setXxx();
+
+		   Connection conn = cpds.getConnection();
+
+		2) DataSource ds = new ComboPooledDataSource("helloc3p0");
+		   Connection conn = ds.getConnection();
+
+12. DBUtils工具包使用
+
