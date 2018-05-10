@@ -1,0 +1,126 @@
+jQuer学习     // 2018/5/4 于 labmona
+
+
+1. 选择器
+	 jQuery对象 与 DOM对象转换
+		jQuery -> DOM :  $(var)
+		DOM -> jQuery : 利用数组
+
+	1). 基本选择器
+
+		element  $("name")
+		id   	 $("#id")
+		.class   $(".classname")
+		*	     $("*") 所有元素
+
+	2). 层次选择器 gradationselector
+		$("body div");   body下面所有div元素
+		$("par > child");  子元素
+		$("prev + next");   prev下一个元素；若类型不一致，则失效
+		$("prev + div");   prev后面所有div元素；
+
+		siblings();  	siblings("div")
+		next();
+		nextAll();		nextAll("div:first")
+		prev();
+
+
+	过滤选择器
+
+	3). 基本过滤选择器
+		:first
+		:last
+		:even   奇数
+		:odd 	偶数
+		:gt(index)
+		:eq(index)
+		:lt(index);
+		:header      标题
+		:animated	动画过滤
+
+	4). 内容过滤选择器
+
+	5). 属性过滤选择器
+
+	6). 可见性过滤选择器
+		:visible
+		:hidden
+	7). 子元素过滤选择器
+
+	8). 表单对象属性选择器
+
+	9). 表单选择器
+
+2. jQury DOM
+	插入节点:
+		成为子节点：
+			append();
+			appendTo();
+			prepend();
+			prependTo();
+		成为兄弟节点:
+			insertAfter();
+			after();
+			insertBefore();
+			before();
+
+	复制节点:
+		clone();
+		clone(true);  同时复制事件
+
+	替换节点:
+		replaceWith();
+		replaceAll();
+
+	包裹节点:
+		wrap();   一个一个包装
+		wrapAll(); 作为整体包装
+		wrapInner();  只包装元素里面的
+
+	删除节点：
+		remove(); //本身删除
+		empty(); //删除子节点
+
+3. CSS-DOM
+	.css("background","#ffbbaa"); //设置背景颜色
+	opacity; //透明度属性 0~1  0：透明；
+	height(); width();
+	offset()    .top; .left;
+	addClass();
+	removeClass();
+	togglcClass();
+	hasClass();
+
+
+4. jQuery 事件
+	加载DOM:
+		$(document).ready(function(){}); ->简写 $(function(){});
+	合成事件：
+		hover： 悬停
+		toggle: 点击
+	事件绑定与取消：
+		bind();
+		unbind();
+		one(); //事件执行一次后取消
+	事件冒泡： //return false; 取消冒泡
+	获取事件对象的属性： event.pageX; event.pageY;//获取光标位置
+
+5. 动画
+	show();   hide();
+	fadeIn(); fadeOut();
+	slideDown(); slideUp();
+
+	toggle();	fadeToggle();  sldetToggel();
+	fadeTo("slow", 0.5);  //以slow形式调整透明度；
+
+																// 2018/5/6 于 dor
+
+
+note: 
+	练习3中； up和down两个图标的导入；
+
+	常用事件： .click ;
+			   .change;
+			   .mouseover; //鼠标悬在上边
+			   .mouseout;  //鼠标离开
+			   .mousemove;

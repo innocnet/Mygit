@@ -1,0 +1,155 @@
+Ajax学习   //2018/5/6  于 dor
+
+不用刷新，使浏览器和服务器保持通信的技术。
+
+note:
+	src="${pageContext.request.contextPath}/scripts/js"  绝对路径
+
+1. XMLHttpRequest对象；
+	function  getHTTPObject() {
+		var xhr = false;
+		if (window.XMLHttpRequest) {
+			xhr = new XMLHttpRequest();
+		}
+		else if (widow.ActiveXObject) {
+			xhr = new ActiveXObject("Mifrosoft.XMLHTTP");
+		}
+		return xhr;
+	}
+
+	方法：
+	xhr.open(method, url);
+	xhr.send(null);
+	xhr.setRequestHeader("header","value");  
+	//当send内容不为空时需要添加request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+	属性：
+	xhr.onreadystatechange();  //事件
+	xhr.readyState 
+	xhr.status 
+	xhr.responseText;   //服务器返回一个串
+	xhr.responseXML;    //服务器返回一个XML对象；可以解析为dom对象；
+
+2. html, xml, json
+	json语法:
+		{"person":{
+			"name":"han",
+			"age":12,
+			"email":"11@tom.com"
+			}
+		}
+
+	选择：
+	html；若应用程序不需要与其他应用程序共享数据的时候, 使用 HTML 片段来返回数据时最简单的
+	json: 如果数据需要重用, JSON 文件是个不错的选择, 其在性能和文件大小方面有优势
+	xml: 当远程应用程序未知时, XML 文档是首选, 因为 XML 是 web 服务领域的 “世界语”
+
+3. jQuery处理三类数据
+		.load();
+		.get();
+		.post();
+		.getJSON();
+	请求JSON数据：
+		1). $.get(url, args, function(data){}, "JSON");
+
+		2). $.post(url, args, function(data){}, "JSON");
+
+		3). $.getJSON(url, args, function(data){});
+
+
+app:
+	1). userName刷新:
+	 	前端：
+			.html();  //.html方法；
+			$("#id").html(data);  //将data嵌为前者的innerHTML; 类似于DOM里的innerHTML;
+
+			var url = "${pageContext.request.contextPath}/validateUserName"; //绝对路径的写法
+
+		后端：
+			request.getParameter("id");
+
+			response.setContentType("text/html");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(rs);
+
+	2). 购物车
+		步骤：
+
+			1. js页面
+
+			2. beans
+				shoppingcart{map, bookname
+							addToCart(), getTotalNumber(), getTotalMoney}
+				shoppiongcartitem{bookname, number, price}
+
+			3. js/script
+				${sessionScope.attr}
+				$("id").text("${sessionScope.sc.bookName}");  //一定要写相应的getter方法；
+
+				$.post(url, args, function(data){}, "JSON");
+
+			4. servlet
+				1)获取请求参数；
+				2)获取cart对象，利用request.getSession("sc");若sc不存在， 则创建一个，并为session添加该属性，
+								session.setAttribute("sc",sc);
+
+				3)利用addtocart添加到购物车；
+				4)准备数据(result)返回，这里用json格式； 利用StringBuilder对象；
+				5)response;
+					response.setContentType("text/javascpt");
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().print(result);
+
+			jackson jar一定要导入在web下的lib文件夹下
+				ObjectMapper mapper = new ObjectMapper();
+				mapper.writeValueAsString 方法可将对象或集合转换为
+
+		note:
+			查看session:
+				前端：
+					${sessionScope.attr}	 //获取session的属性值
+					note：加入购物车前，使div不显示；加入后显示；
+						  利用${sessionScope.attr}; 此时需要给shoppingcart添加一个属性:bookname; 一定要写个getter方法；
+
+				服务器端：
+					HttpSession session = request.getSession;
+					Class sc = Class(session.getAttribute("sc"));
+					if (sc == null) {
+						sc = new Class();
+
+						session.setAttribute("sc", sc);
+					}
+
+	3). employees表三级联动
+		需要添加的jar包：ojdbc, dbutils, c3p0， js172, blockUI, jstl,standard, jackson(三个jar包)；
+		注意：web 里的jar包一定要放在webcontent/web-inf/lib下。
+		1. employees.jsp  //重定向； response.sendRedirect("EmployeesServlet?method=listLocations");
+
+		2. EmployeesServlet 转移request; //这里类似于方法的多态；根据参数method调用不同的方法；
+				Method method = getClass().getDeclaredMethod(methodname, HttpRequest.class, HttpResponse.class);
+				method.invoke(this, request, reponse);  //注意用的是this
+
+				listDepartments(){
+					... //利用basedao 从oracle数据库获取数据
+
+					request.setAttribute("locations", locations);  //请求中传递数据
+					request.getRequestDispatcher("/WEB-INF/pages/employees.jsp").forward(request, response); //这个方法转移request
+				}
+
+		3. pages/employees.jsp  //浏览器页面
+			注意导入jstl, standard. jar(jsp标签库，可以使用c:each 遍历)
+			city; department; employee; table;
+			.change();
+
+		4. servlet添加相应的方法； // 注意bean的getter, setter 方法与sql语句一定要对应； 不要随意改bean的名字； 
+										eclipse有时不能识别，重启都不行；	
+
+		5. 添加blockUI  //看教程
+
+
+
+																							2018/5/10  于 lab
+
+
+
+

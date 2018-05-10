@@ -162,7 +162,7 @@ DCL: 数据库控制语言； 授权；
 								as 
 								select ...    //数据也会进来
 
-		alter table:(只对后添加的表有作用)
+		alter table :(只对后添加的表有作用)
 			add ;  
 			modify;   modify (id number (10) default a)
 			drop;  	  drop column email
@@ -173,7 +173,7 @@ DCL: 数据库控制语言； 授权；
 
 		truncate: 清空表内容
 
-		改变表名称： rename emp1 t emp2;
+		改变表名称： rename emp1 to emp2;
 
 8. 数据处理 DML (增删改； 针对行)
 		insert into:
@@ -196,21 +196,136 @@ DCL: 数据库控制语言； 授权；
 			delete from emp
 			where ...
 
-	数据库事务：
-		commit
-		rollback
-		savepoint
+		数据库事务：
+			commit
+			rollback
+			savepoint
 
-	总结： 
-		带table: truncate; drop; DDL一般带table;
-		不带table: insert into ; update; delete from;  DML 一般不带table;
+		总结： 
+			带table: truncate; drop; DDL一般带table; rename除外
+			不带table: insert into ; update; delete from;  DML 一般不带table;
 
 9. 约束
-	五种约束：
-		not null;
-		unique;
-		primary key;
-		foreign key;
-		check;
+		五种约束：
+			not null;     //只能定义在列级
+			unique;       //不能重复 但和null不冲突，可以有多个null
+			primary key;  //自带not null 和 unique 约束
+			foreign key;  //连接作用；eg: constraint emp_dept_fk foreign key(department_id) references departments(department_id)
+				on delete cascade;级联删除
+				on delete set null;级联置空
+			check;
+
+		列级约束：作用于一列
+		表级约束：可作用于多列
+
+		创建约束：创建表的时候创建约束
+		添加约束：
+			只能添加或删除，不能修改；
+				not null 用modify
+				其余用 add
+			有效或无效化约束； disable; enable
+
+		查询数据字典视图：user_constraints; user_cons_columns
+
+10. 视图(存储起来的查询；对视图修改，基表也会随之改动)
+		好处：
+			控制数据访问
+			简化查询
+			避免重复访问相同的数据
+
+		创建、修改和删除视图：
+			create view name as select ...; 
+			create or replace view ; 修改
+			drop view name;
+		
+		top-n分析：
+			rownum; 只能用<=
+			eg:
+				select *
+				from (select rownum rn, employee_id,last_name,salary 
+				      from (select employee_id,last_name,salary 
+				            from employees
+				            order by salary desc))
+				where rn >=40 and rn<=50
+
+11. 其他数据库对象(序列，索引，同义词)
+
+		序列： 主要用来提供主键值; 语法中不含逗号，括号
+			create sequence seq
+			increment by 1
+			start with 1
+			maxvalue 1
+			minvalue 100
+			cycle
+			cache
+			初始值的改变只能通过删除重建来实现
+
+		索引：提高查询速度
+
+		同义词：方便访问
+
+SQL扩充
+
+12. 控制用户权限
+		用户：
+			创建用户： create user name 
+						identified by pwd
+			授权： grant privilege to user
+					表空间： alter user innoc quota umlimited/10M
+							 on users
+		角色：
+			创建： create role name;
+			授权：grant my_role to innoc;
+
+		对象权限：
+			授权： grant select,update
+				   on employees
+				   to innoc;
+			分配权限： with grant option;
+			分配给所有用户： to public
+			收回权限： revoke...from...
+
+13. set运算符
+		union/union all: 并集； 注意列类型对应
+		intersect ：交集
+		minus： 差集
+		column a_dumy noprint ; 让某列不显示;放在select语句之前
+
+14. 高级子查询
+		多列子查询; where (last_name, employee_id) in ...
+				eg:
+				select employee_id , manager_id, department_id
+				from employees
+				where (manager_id, department_id) in (select manager_id,department_id
+				                                     from employees
+				                                     where employee_id in(141,174))
+				and employee_id not in (141,174)
+
+		from语句中添加子查询；
+
+		单列子查询：decode / case 中使用
+					order by 中使用
+
+		相关子查询：主查询的每一行都执行子查询；
+				eg:
+					select employee_id ,last_name, job_id
+					from employees e
+					where (select count(*)
+				            from job_history
+				            where employee_id=e.employee_id
+				            group by employee_id) >=2
+			  
+		exists和not exists: 查询是否满足条件，只返回true/false
+
+		相关更新/删除
+
+		with子句
+
+
+
+																											2018/4/22 于 Lab
+
+
+
 
 
