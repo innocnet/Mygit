@@ -113,6 +113,16 @@ points:
 		 set transaction isolation level read committed; //设置当前连接隔离级别；
 		 set global transacton ioslation level read committed;  //设置全局隔离级别
 
+		 mysql 四种隔离级别：
+		 	READ UNCOMMITED
+		 	READ COMMITED
+		 	REPEATABLE READ
+		 	SERIALIZEABLE
+
+		oracle 两种隔离级别：
+			READ COMMITED
+		 	SERIALIZEABLE
+
 10. 批量处理
 		PreparedStatement ps;
 		ps.addBatch();

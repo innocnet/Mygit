@@ -1,4 +1,8 @@
-// java doc
+// java 学习文档         //long long ago  
+
+win 10快捷键：
+win + shift + s   截图
+win + tab  时间戳
 
 eclipse快捷键：   
 ctrl + d     // 删除整行
@@ -15,11 +19,33 @@ ctrl + shift + y // 大写转小写
 ctrl + shift + c // 添加注释
 ctrl + shift + t // open type
 alt  + /     // 补全代码，如try_catch块
+F2   		 //rename
+
+eclipse for developer 添加java ee /web 插件方法
+	help-> install new software -> 输入地址：http://download.eclipse.org/releases/oxygen  (oxygen 根据你的eclipse代号版本)
+
+eclipse 代码自动提示
+.<="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 
 自定义快捷键：  windows->preferences->key 
 自定义运行： alt + B   (实在找不到不冲突的快捷键了)
 静态成员不能访问非静态成员； 非静态内部类中不能定义静态成员。
 背景色设置： windows -> preferences-> editors-> text editors  色调84; 饱和度91;亮度205  护眼绿  RGB: 204;232;207
+
+用过的jar包/js：
+	ojdbc, mysql  .jar   // 连接数据库
+	dbutils		.jar//queryRunner 封装dao 
+	c3p0, (dbcp;pool)  .jar //两种开源数据库连接池, dbcp依赖pool包
+	Jascson: anotation , core, databind  .jar // 将对象或集合转换为json格式的数据；
+	jstl, standard      //js标签库
+	beantuils, logging  .jar      //使用beanutils工具类
+
+	hibernate .jar & eclipse安装包   //使用框架
+
+
+	jQuery  .js   //使用jquery
+	blockUI  .js  //使用blockUI
+
 
 自动类型转换遵循下面的规则：
 1.若参与运算的数据类型不同，则先转换成同一类型，然后进行运算。

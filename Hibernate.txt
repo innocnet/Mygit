@@ -1,0 +1,155 @@
+Hibernate              //2018/5/10   于 lab 
+	orm (object relation mapping)框架
+	持久化框架
+
+	英文意思：冬眠； 蛰伏；
+
+1. 安装hiberbate
+
+	1). eclipse插件安装 help->install new software-> add -> .zip
+
+	2). 导入.jar
+
+2. 开发步骤
+ 	1). 创建Hibernate配置文件； cfg.xml(导入dtd,有提示)， 在src下
+
+ 	2). 创建持久化类（(java bean);
+ 		若要将类加入到set中， 则还要重写equals(), hashCode();
+
+ 	3). 创建对象关系映射文件 hbm.xml， 在相应的包下
+
+ 	4). 通过hibernate API编写访问数据库的代码
+ 		session对象实现数据库控制， session的创建
+		 		SesscionFactory sessionFactory = null;
+		 		Configuration configuration = new Configuration().configure();
+
+		 		ServiceRegistry  seviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties())
+		 												   .buildServicRegistry();
+
+		 		sessionFactory = configruation.buildSessionFactory(serviceRegistry);
+
+		 		Session session =new  sessionFactory.openSession();
+
+		 		Transaction transaction = session.beginTransaction();
+
+		 		//代码
+
+		 		transaction.commit();
+
+		 		session.close();
+
+		 		sessionFactory.close();
+
+3. session 
+		缓存， 持久化对象；
+		缓存的处理方法：
+		.flush() ; //使数据表中记录和session缓存中的对象装填保持一致
+					除了显示调用， 也会自动 flush(); 
+					自动调用情形：1). HQL, QBC(Query By Criteria)查询，flush()以得到数据表的最新记录
+								  2). 记录的ID是由底层数据库使用自增的方式生成，则在调用save()后会立即发送Insert(flush操作);
+								  以保证对象的ID是存在的。
+		.refresh(Object obj);
+
+		.clear();
+
+		.evict();  //从缓存中将持久化对象移除；
+
+		.close();
+
+		事务的隔离级别
+
+4. 持久化对象的状态
+
+	临时对象；transient
+	持久化对象；persist   //oid不为null; 位于缓存中
+	删除对象；removed
+	游离对象；detached
+
+
+	save(); persist();
+		临时对象 -- save(), persist(); --> 持久化对象
+							save() // 三个过程：1). 加入session缓存
+												2). 生成ID
+												3). flush缓存，使用insert语句
+									  注意： 生成的OID不能更改；即使setid(), OID也会重新生成；
+									  
+							persist()  //类似save(), 区别：若setid(), 会抛出异常；			
+
+
+	get(); load();  //获取数据库记录，变为持久化对象；
+					  区别： 1). 加载时间： get立即加载; load返回的是代理对象，若不立即使用该对象，则不会立即加载；
+					  		 2). 返回数据方式：若查询结果为空， get返回null; load抛出异常；
+					  		 3). 若在初始化代理对象之前，已经关闭session，load 可能会抛出 lazyinitializationException;
+
+	update();   //一般commit()之前会隐式调用update(); 
+				  若将一个游离对象的相关操作更新到数据库，则需要显示调用update(); 会将一个游离对象转化为一个持久化对象；
+
+				  一般调用update()时，都会update语句；在.hbm.xml文件中class节点设置select-before-update = true后会检查是否一致再发送update;
+				  update对象在数据库记录中为空时， 会抛异常
+				  session 缓存中不能有两个OID相同的对象；此时使用update 会抛异常
+
+	saveorupdate();
+
+	merge();
+
+	delete();  //将对象从缓存中删除； 此时数据库记录依然存在； commit的时候flush才从数据库中删除；
+
+
+5. Hibernate配置文件  .cfg.xml;
+
+		1). 数据库的基本信息   
+				driverClass
+				url
+				username
+				password
+		2). 相关属性
+			dialect;
+			show_sql;
+			format_sql;
+			hbm2ddl.auto    //通过映射文件实现关于数据库的ddl操作
+			connection.isolation  //事务的隔离状态
+
+			<property name="jdbc.fetch_size"></property> 
+			<property name="jdbc.batch_size"></property>  //mysql不支持； oracle 支持
+
+
+			mapping  //映射文件.hbm.xml;
+
+		3). 配置c3p0数据源
+			先导入jar包，再配置属性：
+			jar包是hibernate文件夹下的包： E:\Java\OpenSource\hibernate-release-4.2.21.Final\lib\optional\c3p0\.jar
+				<property name="hibernate.c3p0.max_size">10</property>   //数据库连接池的最大连接数
+		        <property name="hibernate.c3p0.min_size">2</property>    //数据库连接池的最小连接数
+		        <property name="hibernate.c3p0.acquire_increment">2</property> //当数据库连接池中的连接耗尽时, 同一时刻获取多少个数据库连接
+		        <property name="hibernate.c3p0.timeout">5000</property>  //数据库连接池中连接对象在多长时间没有使用过后，就应该被销毁
+		        <property name="hibernate.c3p0.idle_test_period">2000</property> //表示连接池检测线程多长时间检测一次，由线程执行
+		        <property name="hibernate.c3p0.max_statements">10</property>  //缓存 Statement 对象的数量
+
+6. 对象关系映射文件
+	<mapping package> </mapping>
+	<class name,table, dynamic-update></class>
+
+	标识符生成器generator
+		native:  跨平台
+		identity:
+		sequenct:
+		hilo  : high/low算法
+
+	property:
+		name
+		type
+		column
+		update //该字段能否更新
+		fomula  //设置sql表达式，计算派生属性的值
+		scale   //指定小数点位数
+
+
+
+
+
+
+
+
+
+
+

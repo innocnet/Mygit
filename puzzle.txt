@@ -1,0 +1,24 @@
+puzzle: 
+	1. 访问数据库 如何不用每次都访问配置文件；//数据库连接池
+
+	2. sql语句在java里面的繁琐写法如何精简； // 通过preparedStatement精简并防止sql注入；
+
+	3. RejectionUtils及反射原理： ？
+
+	4. new Date(new java.utils.Date().getTime()),如何随便写个时间：   ？
+
+	5. commons-pool-1.5.5.jar  这个包是和哪个一起用的来着； dbcp?          //没错, dbcp 依赖于pools.jar
+
+	6. list = qr.query(sql, new BeanListHandler<>(type), args);   这里type 参数是啥； Class<T> class   与 type什么关系   ?
+
+	7. parameterTypes,args指的是   			//parameterTypes一般是 .class  如String.class
+	   								  			args 一般指字符串
+
+	8. 写pages/employees.jsp 前为什么要导入jstl,standard.js //c:each  遍历items 需要用到这个脚本
+
+	9. jdbc批量处理怎么实现的来着        //	PreparedStatement ps;
+											ps.addBatch();
+											ps.executeBatch();
+											ps.clearBatch()
+
+	10. HQL, QBC查询 是什么					？
