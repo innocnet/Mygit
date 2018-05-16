@@ -8,10 +8,11 @@ Hibernate              //2018/5/10   于 lab
 
 	1). eclipse插件安装 help->install new software-> add -> .zip
 
-	2). 导入.jar
+	2). 导入.jar   OpenSource\hibernate-release-4.2.21.Final\lib\required
 
 2. 开发步骤
- 	1). 创建Hibernate配置文件； cfg.xml(导入dtd,有提示)， 在src下
+ 	1). 创建Hibernate配置文件； 。cfg.xml(导入dtd OpenSource\hibernate-release-4.2.21.Final\project\hibernate-core\src\main\resources\org\hibernate,
+ 	有提示)， 放在src下
 
  	2). 创建持久化类（(java bean);
  		若要将类加入到set中， 则还要重写equals(), hashCode();
@@ -116,7 +117,7 @@ Hibernate              //2018/5/10   于 lab
 			mapping  //映射文件.hbm.xml;
 
 		3). 配置c3p0数据源
-			先导入jar包，再配置属性：
+			先导入jar包，再配置属性：//OpenSource\hibernate-release-4.2.21.Final\lib\optional\c3p0
 			jar包是hibernate文件夹下的包： E:\Java\OpenSource\hibernate-release-4.2.21.Final\lib\optional\c3p0\.jar
 				<property name="hibernate.c3p0.max_size">10</property>   //数据库连接池的最大连接数
 		        <property name="hibernate.c3p0.min_size">2</property>    //数据库连接池的最小连接数
@@ -125,23 +126,229 @@ Hibernate              //2018/5/10   于 lab
 		        <property name="hibernate.c3p0.idle_test_period">2000</property> //表示连接池检测线程多长时间检测一次，由线程执行
 		        <property name="hibernate.c3p0.max_statements">10</property>  //缓存 Statement 对象的数量
 
+		eg:
+			<session-factory>
+		    	<!-- JDBC 连接属性 -->
+		    	<property name="connection.username">root</property>
+		    	<property name="connection.password">orcl</property>
+		    	<property name="connection.url">jdbc:mysql://localhost:3306/Hibernate?useSSL=false</property>
+		    	<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		    	
+		    	<!-- hibernate.cfg.xml的常用属性 -->
+		    	<!-- 数据库方言 -->
+		    	<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		    	<!-- 控制台是否显示sql语句 -->
+		    	<property name="show_sql">true</property>
+		    	<!-- sql语句格式化 -->
+		    	<property name="format_sql">true</property>
+		    	<!-- 生成数据表的策略 -->
+		    	<property name="hbm2ddl.auto">update</property>
+		    	<!--  设置事务隔离状态 -->
+		        <property name="connection.isolation">2</property>
+		         <!--  删除对象后， 使其OID为null -->
+		        <property name="use_identifier_rollback">true</property>
+		        
+		        <!-- 配置c3p0数据源 -->
+		        <property name="hibernate.c3p0.max_size">10</property>
+		        <property name="hibernate.c3p0.min_size">4</property>
+		        <property name="hibernate.c3p0.acquire_increment">2</property>
+		        
+		        <property name="hibernate.c3p0.timeout">5000</property>
+		        <property name="hibernate.c3p0.idle_test_period">2000</property>
+		        <property name="hibernate.c3p0.max_statements">10</property>
+		        
+		        <!-- 设定 JDBC 的 Statement 读取数据的时候每次从数据库中取出的记录条数 -->
+		        <property name="jdbc.fetch_size">100</property>
+		        
+		        <!-- 设定对数据库进行批量删除，批量更新和批量插入的时候的批次大小 -->
+		        <property name="jdbc.batch_size">30</property>
+		        
+		        <!--  需要关联的映射文件 .hbm.xml -->
+		       
+		    	<mapping resource="com/hibernate/entities/nto1/both/Customer.hbm.xml"/>
+		    	<mapping resource="com/hibernate/entities/nto1/both/Order.hbm.xml"/>
+	    	
+	   		 </session-factory>
+
 6. 对象关系映射文件
 	<mapping package> </mapping>
 	<class name,table, dynamic-update></class>
 
 	标识符生成器generator
-		native:  跨平台
-		identity:
-		sequenct:
+		increment: hibernate根据数据max(id)确定id;
+		
+		identity: //底层数据库自增
+		sequence: //底层数据库序列
 		hilo  : high/low算法
-
+		native:  上面三选一
 	property:
 		name
 		type
-		column
+		column  //数据库字段名
 		update //该字段能否更新
 		fomula  //设置sql表达式，计算派生属性的值
 		scale   //指定小数点位数
+
+	eg:
+		<hibernate-mapping>
+		    <class name="com.hibernate.entities.News" table="NEWS" dynamic-update="true">
+		        <id name="id" type="java.lang.Integer">
+		            <column name="ID" />
+		            <generator class="native" />
+		        </id>
+		        <property name="title" type="java.lang.String">
+		            <column name="TITLE" />
+		        </property>
+		        <property name="author" type="java.lang.String">
+		            <column name="AUTHOR" />
+		        </property>
+		        <property name="date" type="java.util.Date">
+		            <column name="DATE" />
+		        </property>
+		        <property name="desc"  formula="(select concat(author,': ' ,title) from news where news.id = id)">
+		        </property>
+		        
+		        <property name="content" type="clob">
+		        	<column name="CONTENT" sql-type="mediumtext"></column>
+		        </property>
+		        <property name="image" type="blob">
+		        	<column name="IMAGE" sql-type="mediumblob"></column>
+		        </property>
+
+			     <!-- component 组件 -->
+	      		 <component name="pay" class="Pay">
+	        		<parent name="worker"/>
+	        	
+	        		<property name="monthlyPay" column="MONTHLY_PAY" type="integer"></property>
+	        		<property name="yearPay" column="YEAR_PAY" type="integer"></property>
+	        		<property name="vocationWithPay" column="VOCATION_WITH_PAY" type="integer"></property>
+	        
+	       		 </component>
+		        
+		    </class>
+		</hibernate-mapping>
+
+
+7. 映射
+		单向n-1：
+			<many-to-one name,class, column>  //n的一端，存放外键
+
+		双向n-1：
+			<many-to-one name,class, column>  //n的一端，存放外键
+			<set name, table,  inverse, cascade, order-by
+			   key (column), one-to-many(class)>     //1的一端，使用set,要有table属性
+
+		基于外键映射的1-1：
+			<mangy-to-one name, class, column>  //存放外键的一端
+			<one-to-one name, class, propety-ref>   //另一端， property-ref指字段名
+
+		基于主键映射的1-1：
+			<generator class = "foreign" param>
+			<one-to-one name, class, constrained>  //放主键的一端
+			<one-to-one name, class>   //另一端
+		单向n-n:
+			<set name, table>
+				<key column/>     //当前持久化对象在对应表中外键列名
+				<many-to-many  class, column/>  //相关联的持久化对象的类名及在对应表中外键列名
+			</set>
+
+		双向n-n:
+			分别在两端写单向中的set ; 注意最好设置其中不维护数据库； inverse="true", 否则同时维护会引起冲突；
+
+
+8. 继承映射
+	//多采用joined, union-subclass,  开发中运用不多； 作了解；
+		subclass
+		joined-subclass;
+		union-subclass;
+
+9. 检索策略
+		类级别的检索策略：
+
+		一对多和多对多的检索策略：
+			<set lazy, fetch, batch_size />
+				lazy： 懒加载  true, false, extra;
+				fetch: 决定初始化查询语句的形式  select, subselect, join ，fetch 属性设为 join, 那么 lazy 属性被忽略
+				batch-size: 初始化集合的个数
+
+		多对一和一对一关联的检索策略
+			<many-to-one lazy, fetch /> 
+				lazy //proxy, false
+				fetch // select , join , fetch 属性设为 join, 那么 lazy 属性被忽略
+			<class batch-size/ >  //batch-size设置在1那端的class节点的属性中, 后面那个1.
+
+10. Hibernate检索方式
+		HQL检索：
+				Department dept = new Department();
+				dept.setDeptId(80);
+			 	String hql = "From Employee where salary > ? and department = ?"
+				Query query = session.createQuery(hql);
+				query.setFloat(0,1200)
+					 .setEntity(1,dept);
+
+			分页查询：
+			命名查询：
+			投影查询：
+				Arrays.asList(); //
+			报表查询：
+
+			HQL (迫切)左外连接:
+				语法和oracle外连接语法不一样；
+				department d left join fetch d.employees 时，会出现很多重复：
+				返回的是对象引用，且集合已经初始化；
+				解决：1. 查询时 用distinct department;
+				      2. 通过HashSet来过滤元素
+				      	results = new ArrayLisg<> (new LinkedHashSet(results));
+
+				department d left join  d.employees 
+					返回的是数组类型；且返回的集合没有被初始化；调用时会重新发送语句查询
+					只能通过distinct来去重
+
+
+			HQL (迫切)内连接
+
+			一般会加上fetch;
+
+		QBC检索： query by criteria
+			参考 OpenSource\hibernate-release-4.2.21.Final\documentation\manual\en-US\html_single.index.html
+			and : conjunction.add(Restrictions.eq/gt/lt/ge/like/isnull)
+			or:   disjunction
+			criteria.list()
+			criteria.uniqueresult
+
+			统计查询： projection
+			orderby；
+
+
+		本地sql检索：
+
+11. 二级缓存
+	使用二级缓存：
+		1. 添加插件：OpenSource\hibernate-release-4.2.21.Final\lib\optional\ehcache\.jar   放lib下
+		2. 添加配置文件: OpenSource\hibernate-release-4.2.21.Final\project\etc\ehcache.xml, 放src下
+		3. 在hibernate.cfg.xml配置属性 
+		 	1) 启用二级缓存  <property name="cache.use_second_level_cache">true</property>
+		 	2) 配置产品  <property name="hibernate.cache.region.factory.class">属性值...</property>
+		 	3) 添加需要启用二级缓存的类 写在mapping后面  <class-cache usage="策略值" class=""/> 
+		 	这一步也可以在hbm.xml文件中配置，在class节点下用<cache usage=""/>
+
+	类级别的二级缓存：
+	集合级别的二级缓存：
+	查询缓存：
+	时间戳缓存区域：
+
+12. session管理及批量处理
+
+
+
+																								2018/5/16 于 lab
+
+
+
+
+
+
+
 
 
 

@@ -15,6 +15,8 @@ DCL: 数据库控制语言； 授权；
 	from employees
 	where last_name = 'King' and salary = 24000
 
+	Mysql连接符： select concat(author, ": ", title) from news where news.id = id;  使用 concat  ;
+
 	使用distinct : 不重复显示
 
 	显示表结构： describe table ;  // desc table 缩写；
@@ -102,7 +104,13 @@ DCL: 数据库控制语言； 授权；
 			join on 
 			eg: e left outer join d;
 				e right outer join d;
-				e full outer join d ; (where (+)所不能实现的)
+				e full outer join d ; (where (+)所不能实现的)、
+
+				select * from departments d
+				left outer join employees e 
+				on  d.department_id = e.department_id
+
+
 	自连接：
 			eg: select emp.last_name ,mana.last_name , mana.salary 
 				from employees emp, employees mana
@@ -183,7 +191,7 @@ DCL: 数据库控制语言； 授权；
 				select  last_name, hire_date 
 				from employees
 
-			脚本插入：+&  
+			脚本插入：+&   //弹出输入框
 				insert into emp 
 				values (&id, '&last_name', &salary, '&hire_date')
 
