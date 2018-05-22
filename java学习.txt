@@ -20,9 +20,15 @@ ctrl + shift + c // 添加注释
 ctrl + shift + t // open type
 alt  + /     // 补全代码，如try_catch块
 F2   		 //rename
+shift + alt +  s   //调出source框，用来生成setter,getter,constructor等
 
 eclipse for developer 添加java ee /web 插件方法
 	help-> install new software -> 输入地址：http://download.eclipse.org/releases/oxygen  (oxygen 根据你的eclipse代号版本)
+
+开启/关闭eclipse自动弹出console功能:
+		Preferences-〉 Run/Debug-〉Console里边
+		取消勾选 Show when program writes to standard out（当console中有值时弹出）前的选项
+		和 Show when program writes to standard error（当console中有错误时弹出） 前的选项
 
 eclipse 代码自动提示
 .<="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ

@@ -1,0 +1,36 @@
+//spring   2018/5/16  于 lab
+
+IOC(inverse of control) / DI(dependency injection)
+	applicationContext //IOC容器，本质是一个接口
+		classpathxmlapplicationContext   //applicationContext的实现类，从类路径下加载配置文件，即src下；
+		
+
+1. 安装
+	1). eclipse安装spring插件  
+	//OpenSource\eclipse\springsource-tool-suite-3.9.4.RELEASE-e4.7.3a-updatesite.zip
+	2). 添加jar包： logging; beans; context; experssiong; core; mysql ; .jar
+	3). src下创建容器对象：applicationContext, 添加bean配置
+	4). 获取bean
+	    //ApplicationContext cxt = new ClassPathXmlApplicationContext("applicationContext.xml");
+	      HelloWorld helloWorld = cxt.getBean("id");
+
+2. 配置Bean
+	属性注入： //对应的bean一定要有无参构造器
+	构造器注入：//对应的bean一定要有对应的构造器，而且类型要对应， int不能写integer,
+					即基本类型不能写成包装类型
+
+3. 关于bean
+
+		1). 自动装配 autowire
+
+		2). bean的继承，依赖
+				没有指定class 的 bean必须为抽象bean, 来作为模板
+				继承：parent
+				依赖：depend-on
+		3). bean的作用域 scope
+				sington; 单例, 默认值
+				prototype; 每次都创建一个bean；
+				request;
+				session;
+		4). 使用外部属性文件
+
