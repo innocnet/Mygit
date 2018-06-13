@@ -19,8 +19,8 @@ IOC(inverse of control) / DI(dependency injection)
 	构造器注入：//对应的bean一定要有对应的构造器，而且类型要对应， int不能写integer,
 					即基本类型不能写成包装类型
 
-3. 关于bean
-
+3. 配置bean
+	1. 基于xml的方式
 		1). 自动装配 autowire
 
 		2). bean的继承，依赖
@@ -33,4 +33,57 @@ IOC(inverse of control) / DI(dependency injection)
 				request;
 				session;
 		4). 使用外部属性文件
+			导入context命名空间； <context:property-placeholder location="classpath:db.properties"/>
 
+		5). Spring表达式语言：SpEL
+			= #{value};
+
+	2. 基于注解的方式  //需要导入aop.jar
+
+			基于注解配置 Bean
+
+			基于注解来装配 Bean 的属性
+
+			泛型依赖注入
+
+AOP: aspect oriented programming
+
+	1. 导包 //E:\Java\OpenSource\Spring\spring-framework-4.0.0.RELEASE\requied
+		beans, context, expression, core, aspects, aop, logging, aopallience, weaver  .jar  //9
+
+	2. 基于注解的方式
+		配置ioc容器: applicationContext.xml
+				<context:component-scan base-package="com.spring.aop.impl"></context:component-scan>
+				<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+		通知：
+		@Before: 前置通知, 在方法执行之前执行
+		@After: 后置通知, 在方法执行之后执行 
+		@AfterRunning: 返回通知, 在方法返回结果之后执行
+		@AfterThrowing: 异常通知, 在方法抛出异常之后
+		@Around: 环绕通知, 围绕着方法执行
+
+
+	3. 基于xml的方式
+		<bean id="arithmeticCalculator" class="com.spring.aop.xml.ArithmeticCalculatorImpl"></bean>
+		<!-- 配置切面bean -->
+		<bean id="loggingAspect" class="com.spring.aop.xml.LoggingAspect"></bean>
+		<bean  id="validationAspect" class="com.spring.aop.xml.ValidationAspect"></bean>
+		
+		<aop:config>
+			<!-- 配置切点表达式 -->
+			<aop:pointcut expression="execution(* com.spring.aop.xml.ArithmeticCalculator.*(int,int))" id="pointcut"/>
+			<!-- 配置切面及通知  这里通知的顺序和书写顺序有关 -->
+			<aop:aspect order="2" ref="loggingAspect">
+		<!-- 			<aop:around method="aroundMethod" pointcut-ref="pointcut"/> -->
+				<aop:before method="BeforeMethod" pointcut-ref="pointcut"/>
+				<aop:after-returning method="afterRetrun" pointcut-ref="pointcut" returning="result"/>
+				<aop:after-throwing method="afterThrowing" pointcut-ref="pointcut" throwing="ex"/>
+				<aop:after method="afterMethod" pointcut-ref="pointcut"/>
+			</aop:aspect>
+			<aop:aspect order="1" ref="validationAspect">
+				<aop:before method="validate" pointcut-ref="pointcut"/>
+			</aop:aspect>
+		</aop:config>
+
+
+																								2018/5/23 于 lab

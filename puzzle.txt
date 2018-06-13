@@ -22,3 +22,12 @@ puzzle:
 											ps.clearBatch()
 
 	10. HQL, QBC查询 是什么					？
+
+
+	11. jstl标签：fmt; c
+
+	12. 	<mvc:default-servlet-handler/>
+			<mvc:annotation-driven></mvc:annotation-driven>  两个标签的用途？
+
+					//第一个： 处理静态资源
+					  第二个: 使用这个能注册多个bean ; 如： handler; adapter; 等

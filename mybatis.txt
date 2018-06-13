@@ -244,7 +244,7 @@ Mybatis    // 2018/5/16  于 lab
 				cglib-nodep-2.2.3.jar
 				commons-logging-1.1.1.jar
 		【MYSQL驱动包】
-		mysql-connector-java-5.0.4-bin.jar
+			mysql-connector-java-5.0.4-bin.jar
 	1). 接口和映射文件； userMapper.xml写在对应的包下；
 				<?xml version="1.0" encoding="UTF-8"?>
 				<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 

@@ -8,7 +8,7 @@ JS
 2). TomCat 
 	Eclipse配置Tomcat服务器,参阅：https://blog.csdn.net/guyuealian/article/details/50762996
 
-	windom.onload 文档完全加载之后执行
+	window.onload 文档完全加载之后执行
 
 3). 代码提示插件 
 	aptana ;  

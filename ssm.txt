@@ -1,0 +1,183 @@
+exercise 1 
+1. 将springmvc, spring, mybatis结合起来； ssm
+2. 类似springmvc中的  employee练习
+
+procedure: 
+mysql 建database: 
+
+INSERT INTO employees(employee_name, email, birth, salary) VALUES ('zhang', 'aa@126.com', STR_TO_DATE('1992-10-15','%Y-%m-%d'),5000);
+INSERT INTO employees(employee_name, email, birth, salary) VALUES ('liu', 'bb@126.com', STR_TO_DATE('1993-10-15','%Y-%m-%d'),6000);
+INSERT INTO employees(employee_name, email, birth, salary) VALUES ('guan', 'cc@126.com', STR_TO_DATE('1992-9-15','%Y-%m-%d'),6000);
+INSERT INTO employees(employee_name, email, birth, salary) VALUES ('wang', 'dd@126.com', STR_TO_DATE('1995-10-15','%Y-%m-%d'),7000);
+INSERT INTO employees(employee_name, email, birth, salary) VALUES ('ee', 'ee@126.com', STR_TO_DATE('1995-10-15','%Y-%m-%d'),8000);
+INSERT INTO employees(employee_name, email, birth, salary) VALUES ('gg', 'gg@126.com', STR_TO_DATE('1993-7-15','%Y-%m-%d'),6500);
+
+
+//添加外键； 
+ALTER TABLE employees ADD CONSTRAINT fk_department_id
+FOREIGN KEY (department_id) REFERENCES departments(department_id) ;
+
+配置文件： 
+1. web       web.xml(dispatcherServlet, filter)
+2. spring    beans.xml (配置业务层bean)
+springmvc springmvc.xml(配置web层bean)
+mybatis   cfg.xml, mapper.xml(select等语句
+
+jar 包： 
+spring: 4.0  aop; aspects; beans; context; expression; core; jdbc;  text; tx; web; webmvc
+springmvc: 
+mybaits:
+mysql:
+ // 17 items
+
+puzzle:
+1. uuid ; 
+2.
+
+tomcat 问题
+      <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+
+        <!-- SingleSignOn valve, share authentication between web applications
+             Documentation at: /docs/config/valve.html -->
+        <!--
+        <Valve className="org.apache.catalina.authenticator.SingleSignOn" />
+        -->
+
+        <!-- Access log processes all example.
+             Documentation at: /docs/config/valve.html
+             Note: The pattern used is equivalent to using pattern="common" -->
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log" suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+
+      </Host>
+
+ssm-crud 
+1. maven工程  settings.xml
+2. 引入jar包
+	spring; springmvc; mybatis; spring-mybaits; mysql; c3p0数据库连接池;
+	其他：jstl; servlet-api; junit; json; 
+
+	mvn repository  : 
+	spirng相关： 
+				spring web mvc； 
+				spring jdbc; 
+				spring aspects;
+
+	mybaits相关：
+				mybatis;
+				mybatis spring
+
+3. 引入bootstrap 前端框架  //放static文件夹下
+	1). jquery
+	2). bootstrap.css
+	3). bootstrap.min.js
+
+4. 配置相关文件
+	web.xml  // 
+				listener; applicationContext.xml
+				DispatcherServlet；
+				characterEncodingFilter
+				hiddenHttpmethodFilter;
+				HTTPputformContentFilter  //  这个过滤器 ？  
+
+	springmvc ioc;  //
+						context compoent scan
+						mvc default servlet handler
+						mvc annotation driven
+
+	spring ioc; // 数据源； 事务管理； 切面等
+					context compoent scan;
+					datasource; DriverManagerDataSource
+					sqlsessionfactory ; SqlSessionFactoryBean
+
+
+	
+	mybaits.config.xml //
+					settings;
+					typealiases;
+
+5. mybaits 逆向工程  mybatis generator;
+	配置mgb.xml  //
+					取消注释
+					  	<commentGenerator>
+					  		<property name="suppressAllComments" value="true"/>
+					  	</commentGenerator>
+	生成的文件
+			bean; 
+			dao;
+			mapper;
+
+6.test  
+	mapper;
+	批量处理； 1). 在spring ioc中配置sqlSessionTemplate;
+			   2). mapper = sqlSession.getMapper(clazz);
+
+7. 添加分页插件
+
+8. 修改员工信息 模态框
+		select 多选框 内容
+
+
+	请求， 员工信息，dept信息
+	radio, select 选中 用[]可表示选中；
+
+	点击更新按钮，如何在ajax中把表单数据传过去？// 
+					使用put方法，则需在web.xml中添加filter:httpputformContentFiler;
+					使用serialize    data:$("form").serialize();
+					传递id   在url中传递
+
+
+	更新部门信息后，不能显示相应行？
+						//外键约束设置错了？：  都没有错，实际是mysql默认按did来排序的，导致数据迁移至后面显示了，
+						在example里面设置order by ;
+
+9. 删除员工信息；
+
+10. 新增员工信息；
+
+	表单重置  reset(); // 先转化成dom对象；$("form")[0].reset();
+
+	关闭模态框时，如何回到最后一页，利用最大记录数，如何实现当当前页数超过最大页数时，返回最后一页？// 直接使用就好， 用最大记录数
+
+11. 多项删除
+	checked 属性， 区分 prop, attr  //一般只有true/false 两个属性值时，用prop; 其他用attr;
+
+	如何批量删除：confirm + msg // msg如何获取?    通过 $.each($(input:checked),function(){}) 来实现
+									msg = empNameStr;
+				  又如何将多个id传过去？//
+				  					生成empIdStr 传过去  
+
+	check_all 多选框选中后，再跳往另一页时，依然是选中状态？ // 因为将th栏中的checkbox也算进去了，去掉就好了，此举不行；
+																只好在build_emp_tabel 函数中 设置成 false 了；
+
+
+12. 数据校验
+	前端校验：
+
+	校验姓名和邮箱：
+		reg //正则表达式
+			reg.test;
+			str.replace(reg,string);
+
+	text() 和 val() 的区分：input type=text ,  //获取文本框的值用 val
+							select , checkbox  //有val(),text()两种
+
+	每次点新增， 上一次添加的数据依然保留，如何去除？ // 1. 表单重置，需转化为dom 对象
+														 2. 去除样式，removeClass  //这里可以把之前的reset_form 重载下
+
+	第一次输入提示错误，接着输入正确的字符串， 提示信息不取消？  //每次change的时候 都应该先清除样式和提示文本
+
+	这里 name 和 email样式的改变 可以使用一个函数，而不用分开写，重新写个函数， 提高代码利用率；
+
+ 
+	后端校验： JSR303;
+		姓名 unique 校验：
+		格式校验： 
+		如何将检验数据 返回给 前端页面？//
+										JSR303   @valid 等注解；
+										bindingresult 
+
+
+ 

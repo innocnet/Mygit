@@ -1,0 +1,240 @@
+SpringMvc    2018/5/23  于 lab
+
+
+1. 配置
+	1). 导包； 放web-inf 目录下；
+	– commons-logging-1.1.3.jar
+	– spring-aop-4.0.0.RELEASE.jar
+	– spring-beans-4.0.0.RELEASE.jar
+	– spring-context-4.0.0.RELEASE.jar
+	– spring-core-4.0.0.RELEASE.jar
+	– spring-expression-4.0.0.RELEASE.jar
+	– spring-web-4.0.0.RELEASE.jar
+	– spring-webmvc-4.0.0.RELEASE.jar
+	2). 配置web.xml 文件， //新建动态web工程，点next, 确定生成web.xml
+		<servlet>
+			<servlet-name>springDispatcherServlet</servlet-name>
+			<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+			<init-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>classpath:springmvc.xml</param-value>
+			</init-param>
+			<load-on-startup>1</load-on-startup>
+		</servlet>
+
+		<!-- Map all requests to the DispatcherServlet for handling -->
+		<servlet-mapping>
+			<servlet-name>springDispatcherServlet</servlet-name>
+			<url-pattern>/</url-pattern>
+		</servlet-mapping>
+
+	3). 配置ioc容器 bean配置文件  java Resources/src 目录下
+		<!-- 配置自定义扫描的包-->
+		<context:component-scan base-package="com.springmvc.handlers"></context:component-scan>
+		<!-- 配置视图解析器； 将handler方法返回值解析为实际的物理视图 -->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="prefix" value="/WEB-INF/views/"></property>
+			<property name="suffix" value=".jsp"></property>
+		</bean>
+
+	4). 写handler 处理方法, views下的jsp;
+
+2. @RequestMapping
+	请求映射：
+		url;
+		method;
+		params;
+		headers;
+		@pathVariable   //url占位符用{id}表示
+
+3. REST  Representational State Transfer， 一种互联网软件架构
+		get;
+		post;
+		put;
+		delete; 
+
+		//需要配置web.xml;
+				<filter>
+					<filter-name>HiddenHttpMethodFilter</filter-name>
+					<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+				</filter>
+				<filter-mapping>
+					<filter-name>HiddenHttpMethodFilter</filter-name>
+					<url-pattern>/*</url-pattern>
+				</filter-mapping>
+
+4. 	@RequestParam 绑定请求参数值
+		value;
+		required;
+		defaultValue；
+	@RequestHeader 绑定请求报头的属性值
+	@CookieValue 绑定请求中的 Cookie 值
+
+	使用 POJO 对象绑定请求参数值
+
+5. 处理模型数据
+	modelAndView;
+	map, model; 
+	@SessionAttributes
+	@ModelAttribute
+			模型数据放请求域 requestScope;
+				modelAndView;
+				map, model; 
+
+			模型数据放会话域 sessionScope;
+				@SessionAttributes
+				//多个请求之间共用某个模型属性数据
+				  只能写在类上方；
+				  value; type 指定能够放入session的数据
+
+			@SessionAttributes
+				在方法定义上使用 @ModelAttribute 注解：Spring MVC
+				在调用目标处理方法前，会先逐个调用在方法级上标注了
+				@ModelAttribute 的方法。
+
+			//修改部分属性；而不影响其他属性；
+	传入Object  搜索流程  implicitModel隐含的模型数据 -> handler@sessionAttributes
+	/**
+	 * 运行流程:
+	 * 1. 执行 @ModelAttribute 注解修饰的方法: 从数据库中取出对象, 把对象放入到了 Map 中. 键为: user
+	 * 2. SpringMVC 从 Map 中取出 User 对象, 并把表单的请求参数赋给该 User 对象的对应属性.
+	 * 3. SpringMVC 把上述对象传入目标方法的参数. 
+	 * 
+	 * 注意: 在 @ModelAttribute 修饰的方法中, 放入到 Map 时的键需要和目标方法入参类型的第一个字母小写的字符串一致!
+	 * 
+	 * SpringMVC 确定目标方法 POJO 类型入参的过程
+	 * 1. 确定一个 key:
+	 * 1). 若目标方法的 POJO 类型的参数木有使用 @ModelAttribute 作为修饰, 则 key 为 POJO 类名第一个字母的小写
+	 * 2). 若使用了  @ModelAttribute 来修饰, 则 key 为 @ModelAttribute 注解的 value 属性值. 
+	 * 2. 在 implicitModel 中查找 key 对应的对象, 若存在, 则作为入参传入
+	 * 1). 若在 @ModelAttribute 标记的方法中在 Map 中保存过, 且 key 和 1 确定的 key 一致, 则会获取到. 
+	 * 3. 若 implicitModel 中不存在 key 对应的对象, 则检查当前的 Handler 是否使用 @SessionAttributes 注解修饰, 
+	 * 若使用了该注解, 且 @SessionAttributes 注解的 value 属性值中包含了 key, 则会从 HttpSession 中来获取 key 所
+	 * 对应的 value 值, 若存在则直接传入到目标方法的入参中. 若不存在则将抛出异常. 
+	 * 4. 若 Handler 没有标识 @SessionAttributes 注解或 @SessionAttributes 注解的 value 值中不包含 key, 则
+	 * 会通过反射来创建 POJO 类型的参数, 传入为目标方法的参数
+	 * 5. SpringMVC 会把 key 和 POJO 类型的对象保存到 implicitModel 中, 进而会保存到 request 中. 
+	 * 
+	 * 源代码分析的流程
+	 * 1. 调用 @ModelAttribute 注解修饰的方法. 实际上把 @ModelAttribute 方法中 Map 中的数据放在了 implicitModel 中.
+	 * 2. 解析请求处理器的目标参数, 实际上该目标参数来自于 WebDataBinder 对象的 target 属性
+	 * 1). 创建 WebDataBinder 对象:
+	 * ①. 确定 objectName 属性: 若传入的 attrName 属性值为 "", 则 objectName 为类名第一个字母小写. 
+	 * *注意: attrName. 若目标方法的 POJO 属性使用了 @ModelAttribute 来修饰, 则 attrName 值即为 @ModelAttribute 
+	 * 的 value 属性值 
+	 * 
+	 * ②. 确定 target 属性:
+	 * 	> 在 implicitModel 中查找 attrName 对应的属性值. 若存在, ok
+	 * 	> *若不存在: 则验证当前 Handler 是否使用了 @SessionAttributes 进行修饰, 若使用了, 则尝试从 Session 中
+	 * 获取 attrName 所对应的属性值. 若 session 中没有对应的属性值, 则抛出了异常. 
+	 * 	> 若 Handler 没有使用 @SessionAttributes 进行修饰, 或 @SessionAttributes 中没有使用 value 值指定的 key
+	 * 和 attrName 相匹配, 则通过反射创建了 POJO 对象
+	 * 
+	 * 2). SpringMVC 把表单的请求参数赋给了 WebDataBinder 的 target 对应的属性. 
+	 * 3). *SpringMVC 会把 WebDataBinder 的 attrName 和 target 给到 implicitModel. 
+	 * 近而传到 request 域对象中. 
+	 * 4). 把 WebDataBinder 的 target 作为参数传递给目标方法的入参. 
+	 */
+
+6.  视图和视图解析器
+	流程：
+		string,view,modelandview -> modelandview -- viewresolver--> 真正的物理视图，view对象 --render--> 结果
+
+
+
+7. RESTful CRUD
+
+	@requestparam     //value;required; 处理post请求时使用；
+	@pathVariable   //获取参数，处理get请求，且是rest风格的请求时使用
+
+	加入property;  
+			bean setter/getter, toString;
+			input.jsp   form input;
+
+
+8. 数据类型转换、数据格式化、数据校验
+	conversionService  
+
+	自定义类型转化器： 
+				1). .jsp <a href="..." />
+				2). handler方法
+				3). 配置converter类； implements Converter<String, Employee>
+				4). 在springmvc.xml中配置 conversionService;  //
+														<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
+	
+														<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+														<property name="converters">
+															<set>
+																<ref bean="employeeConverter" />
+															</set>
+														</property>
+														</bean>
+	格式化： datetimeformatting; numberformatting;  //parttern  加入注解
+
+	数据校验：@NotEmpty; @Email; @Past;  //需要导入hibernate-validator.jar;
+			
+				 提示消息的国际化   //需要配置i18n.properties 
+				 					  配置bean;  messageSource; 
+												
+
+9. 处理 JSON：使用 HttpMessageConverter
+	HttpMessageConverter<T> 是 Spring3.0 新添加的一个接
+	口，负责将请求信息转换为一个对象（类型为 T），将对象（
+	类型为 T）输出为响应信息
+
+	文件下载：responseEntity<byte []> (body, headers, statusCode) // 分别是byte; HttpHeaders; HttpStatus类型；
+
+10. 国际化
+
+11. 文件上传
+		MultipartResolver
+
+12. 使用拦截器
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<bean id="firstInterceptor" class="com.springmvc.interceptors.FirstInterceptor"></bean>
+		<mvc:interceptor >
+			<mvc:mapping path="/emps"/>
+			
+			<bean class="com.springmvc.interceptors.SecondInterceptor"></bean>
+		</mvc:interceptor>
+	
+	</mvc:interceptors>
+
+13. 异常处理
+
+	HandlerExceptionResolver
+
+14. spring与springMVC
+
+	 最好配置两个ioc容器； 
+	 		springmvc IOC容器； //web层：配置handler 
+
+	 		spring IOC容器： //业务层: 配置bean; 框架； service； DAO; 数据库信息等
+
+	 访问关系： springmvc IOC容器中bean能访问spring IOC容器中的bean;
+	 			pring IOC容器中的bean不能访问springmvc IOC容器中bean
+	 问题: 若 Spring 的 IOC 容器和 SpringMVC 的 IOC 容器扫描的包有重合的部分, 就会导致有的 bean 会被创建 2 次.
+	解决:
+		1. 使 Spring 的 IOC 容器扫描的包和 SpringMVC 的 IOC 容器扫描的包没有重合的部分. 
+		2. 使用 exclude-filter 和 include-filter 子节点来规定只能扫描的注解
+
+	springmvc ioc 中：
+	 <context:component-scan base-package="com.atguigu.springmvc" use-default-filters="false">
+		<context:include-filter type="annotation" 
+			expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" 
+			expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+
+	spring IOC中：
+	<context:component-scan base-package="com.atguigu.springmvc">
+		<context:exclude-filter type="annotation" 
+			expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" 
+			expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+
+
+
+																							2018/5/27 于 lab 

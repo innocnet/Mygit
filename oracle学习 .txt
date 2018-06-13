@@ -170,7 +170,7 @@ DCL: 数据库控制语言； 授权；
 								as 
 								select ...    //数据也会进来
 
-		alter table :(只对后添加的表有作用)
+		alter table :(只对后添加的表数据有作用)
 			add ;  
 			modify;   modify (id number (10) default a)
 			drop;  	  drop column email
