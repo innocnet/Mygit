@@ -22,6 +22,7 @@ learngit
    查看文件内容：cat file
    查看工作区和版本库文件的区别：  git diff HEAD -- file
    查看历史记录：    git log   （git log --pretty=oneline  精简信息)
+        退出git log : 按q 
    查看命令记录：   git reflog
    丢弃工作区的修改：                git checkout -- file
    撤销暂存区的修改，回到工作区原来的样子：               git reset HEAD file      (HEAD 指向master, HEAD^ 上一版本， HEAD^^,   HEAD~100)
@@ -31,6 +32,8 @@ learngit
        误删恢复：  针对 rm file   :  git checkout -- file
                    针对 git rm file :  git checkout HEAD -- file
     子文件全部删除：  git rm * -r ; git add . ;  git commit -m "delete all"   
+
+
 
 4）远程库操作
    创建ssh key:   ssh-keygen -t rsa -C "email@example.com"   生成的文件一般在用户主目录下
@@ -42,6 +45,7 @@ learngit
    git rebase origin  // 默认master主分支 命令会把你的"dev"分支里的每个提交(commit)取消掉，并且把它们临时 保存为补丁(patch)(这些补丁放到".git/rebase"目录中),
                          然后把"dev"分支更新 为最新的"origin"分支，最后把保存的这些补丁应用到"dev"分支上。
    远程库克隆： git clone git@github.com:innocnet/gitskills.git
+                // git clone https://github.com/codingXiaxw/seckill.git
    修改远程库地址： git remote set-url origin [url]
    查看远程库状态：git remote -v
    取消与远程库的关联： git remote remove origin
