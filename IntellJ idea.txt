@@ -1,3 +1,30 @@
 intellJ idea使用； & pycharm  
 注册： http://xdouble.cn:8888/
 System.out.println  // sout  ;
+
+快捷键：shift + esc  //关闭小窗口
+
+
+
+资源库：
+http://cdn.code.baidu.com/   
+http://www.bootcdn.cn/
+
+cdn  content delivery netWork //内容分发网络
+
+1. pycharm 下载相关的包：File->Default Settings->Default Project->Project Interpreter 
+
+2. idea    // edit configurations ;  run --> edit configurations
+				settings;   ctrl + alt + s
+				project structure ;  ctrl + shift + alt + s
+
+3. git 一个秒杀活动的ssm项目，运行不起来，  
+
+		1. 尝试更换 mysql-connector jar包， 竟然就能运行了；；；
+		2. 添加redis 服务； redis-server.exe redis.windows.conf
+
+	puzzle: 打包成war包后，提示 不能连接数据库等 问题：java.sql.SQLException: An attempt by a client to checkout a Connection has timed out
+
+			还有一种可能，就是connection没有归还到缓冲池，如果缓冲池有设最大值，但是交易过程中有connection泄漏，那么一段时间后，就会出现这个问题。 //很多人都出现这种问题
+
+
