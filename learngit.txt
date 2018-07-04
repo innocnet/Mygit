@@ -16,6 +16,7 @@ learngit
 3)时光穿梭
    工作区； 版本库（stage暂存区，master主分支）
    添加到暂存区：  git add example.txt
+      //若文件名带有空格： git add IntellJ\ idea.txt , 在空格前加个反斜杠\
    上传到master:   git commit -m "说明"
    查看状态：   git status
    查看文件夹内容：  ls               

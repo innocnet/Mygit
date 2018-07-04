@@ -1,9 +1,15 @@
 intellJ idea使用； & pycharm  
-注册： http://xdouble.cn:8888/
+注册： 
+	http://xdouble.cn:8888/
+	http://idea.uri.ci
 System.out.println  // sout  ;
 
 快捷键：shift + esc  //关闭小窗口
+shift 双击  //搜索
 
+plugin: mongodb
+
+junit安装：junit; junit generator2;
 
 
 资源库：
@@ -28,3 +34,57 @@ cdn  content delivery netWork //内容分发网络
 			还有一种可能，就是connection没有归还到缓冲池，如果缓冲池有设最大值，但是交易过程中有connection泄漏，那么一段时间后，就会出现这个问题。 //很多人都出现这种问题
 
 
+4. 正则   scrapy: selector:
+							// xpath()
+							   re()      =,?,", 前均加\          [(0-9)]{4,9} 或 \d{4,9}
+							   extract()  转化为unicode字符串    extract_first() ；仅获取第一个数据
+  
+
+5. git 基于Scrapy框架的网易云音乐爬虫
+
+		爬取所有专辑的时候，第一页数据好像没有获取到；？
+
+		'//ul[@class="f-hide"]/li/a/@href'  //这个需要在相应的请求中找
+
+		response.meta['id']   //meta 传值
+
+		python json   访问： data['index1']['index2']    //java里面是  data.index1.index2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+附激活码：
+F3HHEJ1EBS-eyJsaWNlbnNlSWQiOiJGM0hIRUoxRUJTIiwibGljZW5zZWVOYW1lIjoiV2FuZyBLdW5sIiwiYXNzaWduZWVOYW1lIjoiIiwiYXNzaWduZWVFbWFpbCI6I
+iIsImxpY2Vuc2VSZXN0cmljdGlvbiI6IkZvciBlZHVjYXRpb25hbCB1c2Ugb25seSIsImNoZWNrQ29uY3VycmVudFVzZSI6ZmFsc2UsInByb2R1Y3RzIjpbeyJjb2RlI
+joiSUkiLCJwYWlkVXBUbyI6IjIwMTktMDEtMjQifSx7ImNvZGUiOiJSUzAiLCJwYWlkVXBUbyI6IjIwMTktMDEtMjQifSx7ImNvZGUiOiJXUyIsInBhaWRVcFRvIjoiM
+jAxOS0wMS0yNCJ9LHsiY29kZSI6IlJEIiwicGFpZFVwVG8iOiIyMDE5LTAxLTI0In0seyJjb2RlIjoiUkMiLCJwYWlkVXBUbyI6IjIwMTktMDEtMjQifSx7ImNvZGUiO
+iJEQyIsInBhaWRVcFRvIjoiMjAxOS0wMS0yNCJ9LHsiY29kZSI6IkRCIiwicGFpZFVwVG8iOiIyMDE5LTAxLTI0In0seyJjb2RlIjoiUk0iLCJwYWlkVXBUbyI6IjIwM
+TktMDEtMjQifSx7ImNvZGUiOiJETSIsInBhaWRVcFRvIjoiMjAxOS0wMS0yNCJ9LHsiY29kZSI6IkFDIiwicGFpZFVwVG8iOiIyMDE5LTAxLTI0In0seyJjb2RlIjoiR
+FBOIiwicGFpZFVwVG8iOiIyMDE5LTAxLTI0In0seyJjb2RlIjoiR08iLCJwYWlkVXBUbyI6IjIwMTktMDEtMjQifSx7ImNvZGUiOiJQUyIsInBhaWRVcFRvIjoiMjAxO
+S0wMS0yNCJ9LHsiY29kZSI6IkNMIiwicGFpZFVwVG8iOiIyMDE5LTAxLTI0In0seyJjb2RlIjoiUEMiLCJwYWlkVXBUbyI6IjIwMTktMDEtMjQifSx7ImNvZGUiOiJSU
+1UiLCJwYWlkVXBUbyI6IjIwMTktMDEtMjQifV0sImhhc2giOiI3ODcyMjE2LzAiLCJncmFjZVBlcmlvZERheXMiOjAsImF1dG9Qcm9sb25nYXRlZCI6ZmFsc2UsImlzQ
+XV0b1Byb2xvbmdhdGVkIjpmYWxzZX0=-Pq3l1YVyso07Wl45yBFBnonk+e/KmNz4TXB5/ivtxZnb8wi4SgeZE9hbUOwPjrbplJ6kid5FKlSQ4NIB6vLP1x3+pRW+IAUD
+4zsOazXYTFKaipqYA2NdrGuJ/KfqyMMtIQQ/W/Kt/A9JFdjzagHm+CE5RgnULgO67mr+uRcqOaNHeBxknbWdLeaHvG9mPKlhELmkN1BPKJI9ZhF2cN6qEu0wHYOAS8++
+X5UCmJa/9eqfd8wMsPTuhNVLUpe0Q4M8RMqYPybdCG5rlqJxSDUStMGwAQl2E5R4vFNm3vPbQ+QGFn7cnntRLultYj2007XBPG+1bc4sF4eN7SE433R+WQ==-MIIEPjC
+CAiagAwIBAgIBBTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBMB4XDTE1MTEwMjA4MjE0OFoXDTE4MTEwMTA4MjE0OFowETEPMA0GA1UEAww
+GcHJvZDN5MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxcQkq+zdxlR2mmRYBPzGbUNdMN6OaXiXzxIWtMEkrJMO/5oUfQJbLLuMSMK0QHFmaI37WShyxZc
+fRCidwXjot4zmNBKnlyHodDij/78TmVqFl8nOeD5+07B8VEaIu7c3E1N+e1doC6wht4I4+IEmtsPAdoaj5WCQVQbrI8KeT8M9VcBIWX7fD0fhexfg3ZRt0xqwMcXGNp3
+DdJHiO0rCdU+Itv7EmtnSVq9jBG1usMSFvMowR25mju2JcPFp1+I4ZI+FqgR8gyG8oiNDyNEoAbsR3lOpI7grUYSvkB/xVy/VoklPCK2h0f0GJxFjnye8NT1PAywoyl7
+RmiAVRE/EKwIDAQABo4GZMIGWMAkGA1UdEwQCMAAwHQYDVR0OBBYEFGEpG9oZGcfLMGNBkY7SgHiMGgTcMEgGA1UdIwRBMD+AFKOetkhnQhI2Qb1t4Lm0oFKLl/GzoRy
+kGjAYMRYwFAYDVQQDDA1KZXRQcm9maWxlIENBggkA0myxg7KDeeEwEwYDVR0lBAwwCgYIKwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQC9WZu
+YgQedSuOc5TOUSrRigMw4/+wuC5EtZBfvdl4HT/8vzMW/oUlIP4YCvA0XKyBaCJ2iX+ZCDKoPfiYXiaSiH+HxAPV6J79vvouxKrWg2XV6ShFtPLP+0gPdGq3x9R3+kJb
+mAm8w+FOdlWqAfJrLvpzMGNeDU14YGXiZ9bVzmIQbwrBA+c/F4tlK/DV07dsNExihqFoibnqDiVNTGombaU2dDup2gwKdL81ua8EIcGNExHe82kjF4zwfadHk3bQVvbf
+dAwxcDy4xBjs3L4raPLU3yenSzr/OEur1+jfOxnQSmEcMXKXgrAQ9U55gwjcOFKrgOxEdek/Sk1VfOjvS+nuM4eyEruFMfaZHzoQiuw4IqgGc45ohFH0UUyjYcuFxxDS
+U9lMCv8qdHKm+wnPRb0l9l5vXsCBDuhAGYD6ss+Ga+aDY6f/qXZuUCEUOH3QUNbbCUlviSz6+GiRnt1kA9N2Qachl+2yBfaqUqr8h7Z2gsx5LcIf5kYNsqJ0GavXTVyW
+h7PYiKX4bs354ZQLUwwa/cG++2+wNWP+HtBhVxMRNTdVhSm38AknZlD+PTAsWGu9GyLmhti2EnVwGybSD2Dxmhxk3IPCkhKAK+pl0eWYGZWG3tJ9mZ7SowcXLWDFAk0l
+RJnKGFMTggrWjV8GYpw5bq23VmIqqDLgkNzuoog==

@@ -1,0 +1,97 @@
+python
+
+流程：
+	 python基础， pytho Thinter(窗口视图) ， python 多线程， python多进程
+
+	 numpy & pandas(数据分析)  matplolib(数据可视化)  爬虫(scrapy, beautiful soup)
+
+list  []
+tuple ()
+dict  json{'a': 'b'}
+col   {}
+
+
+在python shell下运行.py 
+	1、在shell下 输入import sys 回车
+	2、输入 sys.path.append("D:\\python") 回车
+	3、输入 import myfile 回车 
+
+
+
+1. scrapy  爬虫
+	item
+	pipeline
+	spiders/.
+	middlewares
+	settings
+
+保存item  : 1) 在pipeline里自定义， 有json, mongodb 
+			2) 使用FEED EXPORTS : 
+			    1. 在settings里面写
+							FEED_URI   //这个地址改怎么写
+							FEED_FORMAT
+							FEED_ENCODING
+						指定读写属性？
+				2. 在spiders/spider.spiderclass添加属性
+							custom_settings
+
+
+
+plan: 
+	完善，数据统计   
+					//alice_mask, font
+
+	完善爬虫
+			//保存数据的三种方式
+
+puzzle: 网易云音乐评论  爬取专辑第一页时，网址问题
+								https://music.163.com/#/artist/album?id=6452&limit=12&offset=12
+								https://music.163.com/#/artist/album?id=6452
+
+
+2. TensorFlow
+	numpy   np.float32  dtype
+			np.dot(matrix1, matrix2) //线代中矩阵乘法  
+			np.multiply() //对应元素相乘
+			np.array()   //创建矩阵
+			np.arange(1,4, dtype)  //[1,2,3,4]    生成一位矩阵， 最后一个是步长
+
+			np.linspace(start, stop, num)
+			np.newaxis   // a[:, np.newaxis]  添加一个维度
+
+	tensorflow   
+			tf.zeros(shape, dtype, name)  //几行几列，一行一列可用[1]表示； 类型， 名称
+			tf.matmul()   //矩阵相乘
+			tf.multiply()  //对应元素相乘
+
+			tf.assign(a, b)  //将b的值分配给a, b也可以说是一个函数
+			tf.add(a,b)
+
+			tf.random_normal(shape, mean=0.0, stddev=1.0, dtype=tf.float32, seed=None, name=None)
+			  //用于从服从指定正太分布的数值中取出指定个数的值。
+
+			 tf.square
+			 tf.reduce_mean  reduce_sum //   *参数 reduction_indices   默认求所有元素的均值
+			 															0， 求第一维， 即列的均值
+			 															1， 求第二维， 即行的均值
+
+			 tf.nn.softmax(a)   //向量归一化处理
+	matplotlib
+			plt.figure()
+			fig.add_subplot(111)
+
+			plt.plot()
+			plt.scatter()
+			plt.bar()  //条形图
+
+			plt.ion()：打开交互模式
+			plt.ioff()：关闭交互模式
+			plt.clf()：清除当前的Figure对象
+			plt.cla()：清除当前的Axes对象
+			plt.pause()：暂停功能
+
+
+
+ add_layer(inputs, insize, outsize, activation_function)   // outsize？  输出结果的个数， 或理解为隐藏层神经元的个数  
+
+ optimizer: 

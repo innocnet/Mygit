@@ -1,0 +1,9 @@
+windows快捷键    //2018/6/25 朝 于 lab
+cmd  systeminfo  //系统信息
+	 winver      //windows版本
+
+
+win + shift + s   截图
+win + tab  时间戳
+
+	
