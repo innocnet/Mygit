@@ -91,7 +91,7 @@ java堆内存：
 	heap space =(old + new (eden+ survivor(from, to)))  对应的内存的回收： Young GC; Full GC
 	Out of Memory 主要有两种表现：
 								1.年老代溢出： 各种内存问题；
-								2.持久带溢出： 动态加载各种类
+								2.持久代溢出： 动态加载各种类
 	对象的历程： Eden->survivor(from or to)->年老代->GC
 
 内部类：静态内部类， 普通内部类， 局部内部类， 匿名内部类
@@ -99,11 +99,26 @@ java堆内存：
 	   抽象方法不能有方法体
 	   静态方法不能使用非静态变量
 
+	匿名内部类：
+	  1、使用匿名内部类时，我们必须是继承一个类或者实现一个接口，但是两者不可兼得，同时也只能继承一个类或者实现一个接口。
+
+      2、匿名内部类中是不能定义构造函数的。
+
+      3、匿名内部类中不能存在任何的静态成员变量和静态方法。
+
+      4、匿名内部类为局部内部类，所以局部内部类的所有限制同样对匿名内部类生效。
+
+      5、匿名内部类不能是抽象的，它必须要实现继承的类或者实现的接口的所有抽象方法。
+
 
 封装，继承，多态：
 
 	继承， 子类无法继承父类的构造方法；  构造方法不能被继承，重写；
 
+重载与重写：
+	静态方法不会被重写；
+	重载根据参数静态分配；
+	重写动态分配，看实际类型；
 
 访问控制符： 
 	public，	protected, default, private
@@ -112,7 +127,7 @@ SimpleDataFormat  线程不安全的；
 
 构造器与初始化块：
 	初始化顺序： 静态初始化块 (父类->子类)-> 父类初始化块，构造器 -> 子类初始化块， 构造器 
-
+  	静态->非静态； 父类->子类； 变量->初始化块->构造器； 
 
 
 Scanner sc = new Scanner(System.in);     //nextInt(); hasNext();
@@ -145,7 +160,10 @@ Scanner sc = new Scanner(System.in);     //nextInt(); hasNext();
 接口和抽象类：
 		同： 不能被实例化；
 		     接口的实现类或抽象类的子类必须实现接口或抽象类中的方法后才能被实现；
-		异： 方法修饰： 接口只能有public ， abstract 修饰；
+		异： 
+			抽象类可以有构造器，接口没有构造器；
+			抽象类可以有普通方法，静态方法，接口中除了抽象方法，还可以有默认方法，静态方法，默认用public static继修饰，静态常量public static final;
+			方法修饰： 接口只能有public ， abstract 修饰；
 					  抽象类方法可以被public， protected, private 等修饰；
 			成员变量： 接口  只能被 public， static， final修饰
 					  抽象类 可以被public， protected, private 等修饰；
@@ -158,17 +176,137 @@ Scanner sc = new Scanner(System.in);     //nextInt(); hasNext();
 				  接口多用于不同类之间，定义不同类之间的通信规则，当希望支持差别较大的多个对象之间的特定交互行为时，使用接口为好，
 				  接口能大大降低系统的耦合度，
 
- 	接口可以继承接口，不可以实现接口；
+ 	接口可以继承接口，不可以实现接口；可以是多继承；
  	抽象类实现接口， 不必实现接口的所有抽象方法；
 
 
+ 	方法： 抽象类：普通方法，静态方法，抽象方法； 接口: 抽象方法，默认方法(default),静态方法；
+ 	变量： 抽象类： 各种；  接口： 静态常量（public static final)
 
 排序算法：
 	1. 冒泡排序  
 		时间复杂度O(n^2)
 	    基本思想：n-1次排序, 每次将最大或最小排到前面或后面， 像冒泡一样；
 
-	2. 快速排序
+	2. 选择排序
 
-	3. 选择排序
+	3. 插入排序
 
+	4. 希尔排序
+
+	5. 归并排序
+
+	6. 快速排序
+
+	7. 堆排序
+
+	8. 计数排序
+
+	9. 桶排序
+
+	10. 基数排序
+
+int与Integer区别：
+	1). int 是基本数据类型之一， Integer 是int的包装类
+	2). 默认值不同，int 为0； Integet 是 null;
+	3). 传递方式不同， int为值传递， Integer为引用传递；
+	4). 使用容器时，只能用Integer,如List只能存放对象；
+
+	int 和 Integer 类型用==比较时，会自动拆箱，比较的是值，而不是引用地址；
+
+static: 不可修饰局部变量；
+final:
+abstract:
+计算：
+  	1. 原码，反码，补码；
+
+  		负数 ： 取反 + 1 = 补码；
+  		还原： 补码-1 ，取反 = 原码；
+
+  	2. ip地址网络号， 子网掩码；
+
+值传递与引用传递：
+	1.对象就是传引用
+	2.原始类型就是传值
+	3.String，Integer, Double等immutable类型因为没有提供自身修改的函数，
+		每次操作都是新生成一个对象，所以要特殊对待。可以认为是传值。
+
+String, StringBuffer, StringBuilder:
+	String是不可变类，字符串常量， 所以方法引用时和基本类型一样，是值传递，也就是方法内的改变不影响原来的值；
+	StringBuffer, 字符串变量，线程安全；
+	StringBuilder, 线程不安全的，适合单线程，效率高；
+	执行效率： StringBuilder > StringBuffer > String ;
+
+异常处理：
+	Throwable -> 
+				error, exception; -> 
+									检查异常(强制捕捉处理)，IO, SQL
+									运行异常(jvm不强制捕捉处理) 类型转换， 数组越界，空指针，算数异常
+
+
+
+HashMap, HashTable: 
+		均实现了Map接口， 采用键值对， 
+		hashmap允许用null,hashtable不能用null;
+		hashtable线程安全， hashmap不是线程安全的；
+		hashtable采用Enumerator遍历， hashmap用Iterator迭代遍历；
+		hashtable直接使用对象的hashcode, hashmap重新计算hash值，用与代替求模；
+
+jvm内存：
+	堆区heap : new出来的对象； 类的成员变量；
+	栈区stack: 又分为：
+				虚拟机栈： 局部变量；基本数据类型； 引用等
+				本地方法栈： 
+
+	方法区method: 又叫静态区/全局区， class文件， static变量， 字符串常量池； 方法；
+	程序计数器： 记录标志线程的字节码信息；
+
+序列化serailizable:
+	序列化不能保存static, transient变量；
+
+集合:
+ 	collection:
+ 		Set;
+ 			HashSet;  //默认容量16，超过0.75，扩容1倍；
+ 			TreeSet;
+ 		Queue;
+ 		List;
+ 			ArrayList   //线程不安全，扩容时*1.5， 默认容量是10；
+ 			Vector;     //线程安全，扩容时*2
+ 			LinkedList;  //采用双向链表实现，插入效率高，线程不安全；继承于AbstractSequentialList
+
+ 	map: 
+ 		HashMap;    //默认容量16，超过0.75，扩容1倍；
+ 		HashTable;
+ 		TreeMap;
+
+
+ Iterator, Comparable
+
+
+多线程：
+	1.实现runable接口，实现run() 方法；
+	2.继承Thread类， 重写run方法;
+	3.实现callable接口，实现call() 方法；
+
+
+并发锁：
+	乐观/悲观锁： 悲观锁认为数据的并发操作一定会使数据发生修改，默认全都加锁，适合写操作非常多的场景；
+
+	互斥/读写锁：
+
+	自旋锁： 自旋锁是指尝试获取锁的线程不会立即阻塞，而是采用循环的方式去尝试获取锁，这样的好处是减少线程上下文切换的消耗，缺点是循环会消耗CPU。
+
+事务：
+	原子性； 保证完整；
+	一致性； 保证并发；
+	隔离性； 保证安全；
+	持久性； 保证恢复；    
+
+
+五大常用算法：
+	分治法；
+	动态规划；
+	贪心算法；
+	回溯法；
+	分支定界；

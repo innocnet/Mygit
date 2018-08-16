@@ -11,22 +11,22 @@ puzzle:
 
 	6. list = qr.query(sql, new BeanListHandler<>(type), args);   这里type 参数是啥； Class<T> class   与 type什么关系   ?
 
-	7. parameterTypes,args指的是   			//parameterTypes一般是 .class  如String.class
+		 parameterTypes,args指的是   			//parameterTypes一般是 .class  如String.class
 	   								  			args 一般指字符串
 
-	8. 写pages/employees.jsp 前为什么要导入jstl,standard.js //c:each  遍历items 需要用到这个脚本
+	7. 写pages/employees.jsp 前为什么要导入jstl,standard.js //c:each  遍历items 需要用到这个脚本
 
-	9. jdbc批量处理怎么实现的来着        //	PreparedStatement ps;
+	8. jdbc批量处理怎么实现的来着        //	PreparedStatement ps;
 											ps.addBatch();
 											ps.executeBatch();
 											ps.clearBatch()
 
-	10. HQL, QBC查询 是什么					？
+	9. HQL, QBC查询 是什么					？
 
 
-	11. jstl标签：fmt; c
+	10. jstl标签：fmt; c  写pages/employees.jsp 前为什么要导入jstl,standard.jar  ?
 
-	12. 	<mvc:default-servlet-handler/>
+	11. 	<mvc:default-servlet-handler/>
 			<mvc:annotation-driven></mvc:annotation-driven>  两个标签的用途？
 
 					//第一个： 处理静态资源

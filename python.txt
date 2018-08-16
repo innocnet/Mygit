@@ -1,5 +1,8 @@
 python
 
+pip install .whl;
+cmd -> pip list;   //查看安装的库
+
 流程：
 	 python基础， pytho Thinter(窗口视图) ， python 多线程， python多进程
 
@@ -24,6 +27,8 @@ col   {}
 	spiders/.
 	middlewares
 	settings
+创建项目 
+	scrapy startproject projectname;
 
 保存item  : 1) 在pipeline里自定义， 有json, mongodb 
 			2) 使用FEED EXPORTS : 
@@ -95,3 +100,33 @@ puzzle: 网易云音乐评论  爬取专辑第一页时，网址问题
  add_layer(inputs, insize, outsize, activation_function)   // outsize？  输出结果的个数， 或理解为隐藏层神经元的个数  
 
  optimizer: 
+
+
+
+
+
+
+ 3. 数据分析
+
+ **解决中文乱码
+ 		import matplotlib as plt
+ 		plt.rcParams['font.sans-serif'] = ['SimHei']  #显示中文字体
+		plt.rcParams['axes.unicode_minus'] = False    #显示负号
+
+
+ 	numpy   //提供常用的数值数组、矩阵等函数, 比list效率高  
+	scipy   //一种使用NumPy来做高等数学、信号处理、优化、统计的扩展包 
+	pandas  //一种构建于Numpy的高级数据结构和精巧工具，快速简单的处理数据。  数据结构： Series和DataFrame;
+	matplotlib //绘图库
+
+	numpy :  np.arange(10)    //长度为10 数组， 从0到9；
+	         np.array([[1,2],[2,4]])
+
+
+	matplotlib:
+			legend  loc参数，指定legend位置      //图例
+
+			histtype : {‘bar’, ‘barstacked’, ‘step’, ‘stepfilled’}, optional    //直方图 
+
+
+	pandas:      
