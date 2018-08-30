@@ -1,7 +1,7 @@
 SQL语言(不区分大小写；对行不敏感)
 
 edit(pl/sql)界面里面  -- 表示注释
-DML: 数据操纵语言 增删改查；针对行
+DML: 数据操纵语言 增删改查；针对行  manipulation
 DDL: 定义数据库的结构，创建，修改和删除； 针对列
 DCL: 数据库控制语言； 授权；
 1.select语句：
@@ -221,7 +221,7 @@ DCL: 数据库控制语言； 授权；
 			foreign key;  //连接作用；eg: constraint emp_dept_fk foreign key(department_id) references departments(department_id)
 				on delete cascade;级联删除
 				on delete set null;级联置空
-			check;
+			check;  
 
 		列级约束：作用于一列
 		表级约束：可作用于多列
