@@ -1,0 +1,6 @@
+photoshop 学习：
+
+撤销快捷键：
+  ctrl + z;  撤销一步；
+  ctrl + alt + z   撤销多步;
+  
